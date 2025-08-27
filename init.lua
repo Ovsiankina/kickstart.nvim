@@ -70,6 +70,64 @@ end
 local rtp = vim.opt.rtp
 rtp:prepend(lazypath)
 
+local function do_one_iteration(i, total, wait_time)
+  local fallback = 200
+  -- step 1: delete char
+  vim.api.nvim_feedkeys('x', 'n', false)
+
+  -- step 2: save after 0.3s
+  vim.defer_fn(function()
+    vim.cmd 'write'
+
+    -- step 3: undo after another 0.3s
+    vim.defer_fn(function()
+      vim.api.nvim_feedkeys('u', 'n', false)
+
+      -- step 4: save again after another 0.3s
+      vim.defer_fn(function()
+        vim.cmd 'write'
+
+        if i < total then
+          vim.defer_fn(function()
+            do_one_iteration(i + 1, total)
+          end, wait_time or fallback)
+        end
+      end, wait_time or fallback)
+    end, wait_time or fallback)
+  end, wait_time or fallback)
+end
+
+local function trigger_rustowl_sigsegv(count)
+  count = count or 1
+  if count < 1 or count > 100 then
+    vim.notify('Count must be between 1 and 100', vim.log.levels.ERROR)
+    return
+  end
+  do_one_iteration(1, count, 300)
+end
+
+vim.api.nvim_create_user_command('SIGSEGV', function(opts)
+  trigger_rustowl_sigsegv(tonumber(opts.args) or 1)
+end, {
+  nargs = '?',
+  complete = function()
+    return { '1', '10', '50', '100' }
+  end,
+})
+
+vim.api.nvim_create_user_command('SIGSEGV', function(opts)
+  trigger_rustowl_sigsegv(tonumber(opts.args) or 1)
+end, {
+  nargs = '?',
+  complete = function()
+    return { '1', '10', '50', '100' }
+  end,
+})
+
+vim.keymap.set('n', '<leader>co', function()
+  trigger_rustowl_sigsegv()
+end, { desc = 'Compiler [o]open' })
+
 require('lazy').setup({
 
   {
@@ -96,19 +154,7 @@ require('lazy').setup({
 
           map('gra', vim.lsp.buf.code_action, '[G]oto Code [A]ction', { 'n', 'x' })
 
-          map('grr', require('telescope.builtin').lsp_references, '[G]oto [R]eferences')
-
-          map('gri', require('telescope.builtin').lsp_implementations, '[G]oto [I]mplementation')
-
-          map('grd', require('telescope.builtin').lsp_definitions, '[G]oto [D]efinition')
-
           map('grD', vim.lsp.buf.declaration, '[G]oto [D]eclaration')
-
-          map('gO', require('telescope.builtin').lsp_document_symbols, 'Open Document Symbols')
-
-          map('gW', require('telescope.builtin').lsp_dynamic_workspace_symbols, 'Open Workspace Symbols')
-
-          map('grt', require('telescope.builtin').lsp_type_definitions, '[G]oto [T]ype Definition')
 
           local function client_supports_method(client, method, bufnr)
             if vim.fn.has 'nvim-0.11' == 1 then
