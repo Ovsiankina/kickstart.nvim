@@ -1,3 +1,65 @@
+local keymaps = {
+
+    -- 'default' (recommended) for mappings similar to built-in completions
+    --   <c-y> to accept ([y]es) the completion.
+    --    This will auto-import if your LSP supports it.
+    --    This will expand snippets if the LSP sent a snippet.
+    -- 'super-tab' for tab to accept
+    -- 'enter' for enter to accept
+    -- 'none' for no mappings
+    --
+    -- For an understanding of why the 'default' preset is recommended,
+    -- you will need to read `:help ins-completion`
+    --
+    -- TODO: No, but seriously. Please read `:help ins-completion`, it is really good!
+    --
+    -- All presets have the following mappings:
+    -- <tab>/<s-tab>: move to right/left of your snippet expansion
+    -- <c-space>: Open menu or open docs if already open
+    -- <c-n>/<c-p> or <up>/<down>: Select next/previous item
+    -- <c-e>: Hide menu
+    -- <c-k>: Toggle signature help
+    --
+    -- See :h blink-cmp-config-keymap for defining your own keymap
+    --
+    -- recap of chapter: Insert mode completion				*ins-completion*
+    --
+    -- 1. Whole lines						            |i_CTRL-X_CTRL-L|
+    -- 2. keywords in the current file		            |i_CTRL-X_CTRL-N|
+    -- 3. keywords in 'dictionary'				        |i_CTRL-X_CTRL-K|
+    -- 4. keywords in 'thesaurus', thesaurus-style		|i_CTRL-X_CTRL-T|
+    -- 5. keywords in the current and included files	|i_CTRL-X_CTRL-I|
+    -- 6. tags							                |i_CTRL-X_CTRL-]|
+    -- 7. file names						            |i_CTRL-X_CTRL-F|
+    -- 8. definitions or macros				            |i_CTRL-X_CTRL-D|
+    -- 9. Vim command-line					            |i_CTRL-X_CTRL-V|
+    -- 10. User defined completion			            |i_CTRL-X_CTRL-U|
+    -- 11. omni completion					            |i_CTRL-X_CTRL-O|
+    -- 12. Spelling suggestions				            |i_CTRL-X_s|
+    -- 13. keywords in 'complete'			            |i_CTRL-N| |i_CTRL-P|
+    preset = 'default',
+
+    ['<C-k>'] = { 'select_prev', 'fallback' },
+    ['<C-j>'] = { 'select_next', 'fallback' },
+
+    ['<C-f>'] = { 'accept', 'fallback' },
+
+    ['<C-s>'] = { 'show_signature', 'hide_signature', 'fallback' },
+
+    -- disable a keymap from the preset
+    -- ['<C-e>'] = false, -- or {}
+
+    -- show with alist of providers
+    ['<C-space>'] = {
+        function(cmp)
+            cmp.show { providers = { 'snippets' } }
+        end,
+    },
+
+    -- For more advanced Luasnip keymaps (e.g. selecting choice nodes, expansion) see:
+    --    https://github.com/L3MON4D3/LuaSnip?tab=readme-ov-file#keymaps
+}
+
 return { -- Autocompletion
     'saghen/blink.cmp',
     event = 'VimEnter',
@@ -32,52 +94,10 @@ return { -- Autocompletion
         'folke/lazydev.nvim',
     },
     --- @module 'blink.cmp'
+    --- @diagnostic disable-next-line: undefined-doc-name
     --- @type blink.cmp.Config
     opts = {
-        keymap = {
-            -- 'default' (recommended) for mappings similar to built-in completions
-            --   <c-y> to accept ([y]es) the completion.
-            --    This will auto-import if your LSP supports it.
-            --    This will expand snippets if the LSP sent a snippet.
-            -- 'super-tab' for tab to accept
-            -- 'enter' for enter to accept
-            -- 'none' for no mappings
-            --
-            -- For an understanding of why the 'default' preset is recommended,
-            -- you will need to read `:help ins-completion`
-            --
-            -- No, but seriously. Please read `:help ins-completion`, it is really good!
-            --
-            -- All presets have the following mappings:
-            -- <tab>/<s-tab>: move to right/left of your snippet expansion
-            -- <c-space>: Open menu or open docs if already open
-            -- <c-n>/<c-p> or <up>/<down>: Select next/previous item
-            -- <c-e>: Hide menu
-            -- <c-k>: Toggle signature help
-            --
-            -- See :h blink-cmp-config-keymap for defining your own keymap
-            preset = 'default',
-
-            ['<C-k>'] = { 'select_prev', 'fallback' },
-            ['<C-j>'] = { 'select_next', 'fallback' },
-
-            ['<C-f>'] = { 'accept', 'fallback' },
-
-            ['<C-s>'] = { 'show_signature', 'hide_signature', 'fallback' },
-
-            -- disable a keymap from the preset
-            -- ['<C-e>'] = false, -- or {}
-
-            -- show with a list of providers
-            ['<C-space>'] = {
-                function(cmp)
-                    cmp.show { providers = { 'snippets' } }
-                end,
-            },
-
-            -- For more advanced Luasnip keymaps (e.g. selecting choice nodes, expansion) see:
-            --    https://github.com/L3MON4D3/LuaSnip?tab=readme-ov-file#keymaps
-        },
+        keymap = keymaps,
 
         appearance = {
             -- 'mono' (default) for 'Nerd Font Mono' or 'normal' for 'Nerd Font'
@@ -92,7 +112,7 @@ return { -- Autocompletion
         },
 
         sources = {
-            default = { 'lsp', 'path', 'snippets', 'lazydev' },
+            default = { 'lsp', 'path', 'snippets', 'lazydev', 'buffer' },
             providers = {
                 lazydev = {
                     module = 'lazydev.integrations.blink',

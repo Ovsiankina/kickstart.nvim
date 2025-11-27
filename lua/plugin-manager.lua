@@ -47,17 +47,6 @@ M.imports = {
     -- Think file navigation with Telescope !
     { import = 'plugins.workflow' },
 
-    -- [[ IDE tooling ]]
-    -- Plugins all arond powerful IDE tooling such as LSPs, DAPs, linters and formatters
-    --
-    -- 'IDE-tooling' is named after how `mason.nvim` describes what it handles i.e: external editor tooling such as LSP servers, DAP servers, linters, and formatters
-    -- WARN: Do not import 'plugins.ide'. This will return the 'plugin.ide.tooling' tables !
-    { import = 'plugins.ide.lsp' },
-    { import = 'plugins.ide.dap' },
-    { import = 'plugins.ide.lint' },
-    { import = 'plugins.ide.fmt' },
-    { import = 'plugins.ide.parser' },
-
     -- [[ UI plugins ]]
     -- UI plugins regroup everything that adds styling to new modules in the editor environment.
     -- Think oil.nvim or git-signs.
@@ -66,6 +55,18 @@ M.imports = {
     { import = 'plugins.ui.git' },
     { import = 'plugins.ui.statusline' },
     { import = 'plugins.ui.styling' },
+
+    -- [[ IDE tooling ]]
+    -- Plugins all arond powerful IDE tooling such as LSPs, DAPs, linters and formatters
+    --
+    -- 'IDE-tooling' is named after how `mason.nvim` describes what it handles i.e: external editor tooling such as LSP servers, DAP servers, linters, and formatters
+    -- WARN: Do not import 'plugins.ide'. This will return the 'plugin.ide.tooling' tables !
+    { import = 'plugins.ide.mason' },
+    { import = 'plugins.ide.lsp' },
+    { import = 'plugins.ide.dap' },
+    { import = 'plugins.ide.lint' },
+    { import = 'plugins.ide.fmt' },
+    { import = 'plugins.ide.parser' },
 }
 
 --  [[ Language specific plugins ]]

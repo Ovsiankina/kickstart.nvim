@@ -36,6 +36,7 @@ require('settings.vim').autocommand()
 -- Lazy.nvim plugin manager
 require('plugin-manager').install()
 require('plugin-manager').plugins()
+-- require('lua.plugins.ide.mason').setup()
 
 vim.keymap.set(
     'n',

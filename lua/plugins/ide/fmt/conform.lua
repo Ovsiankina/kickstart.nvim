@@ -1,25 +1,27 @@
-local tools = require 'lua.plugins.ide.tooling'
+-- NOTE: configuration: DONE (27.11.25)
+local tools = require 'plugins.ide.tooling'
 local formatters = tools.mason_packages.formatters
 
-local keymaps = {
-    {
-        '<leader>fb',
-        function()
-            require('conform').format {
-                async = true,
-                lsp_format = 'fallback',
-            }
-        end,
-        mode = '',
-        desc = '[F]ormat [b]uffer',
-    },
-}
+-- local keymaps = {
+--     {
+--         -- NOTE: Keymap not needed since I prefer auto-formating the file with 'BufWritePre' (on save).
+--         '<leader>fb',
+--         function()
+--             require('conform').format {
+--                 async = true,
+--                 lsp_format = 'fallback',
+--             }
+--         end,
+--         mode = '',
+--         desc = '[F]ormat [b]uffer',
+--     },
+-- }
 
 return { -- Autoformat
     'stevearc/conform.nvim',
     event = { 'BufWritePre' },
     cmd = { 'ConformInfo' },
-    keys = keymaps,
+    -- keys = keymaps,
     opts = {
         notify_on_error = true,
         format_on_save = function(bufnr)
@@ -37,13 +39,5 @@ return { -- Autoformat
             end
         end,
         formatters_by_ft = formatters,
-        -- {
-        --            lua = { 'stylua' },
-        --            -- Conform can also run multiple formatters sequentially
-        --            -- python = { "isort", "black" },
-        --            --
-        --            -- You can use 'stop_after_first' to run the first available formatter from the list
-        --            -- javascript = { "prettierd", "prettier", stop_after_first = true },
-        --        },
     },
 }
