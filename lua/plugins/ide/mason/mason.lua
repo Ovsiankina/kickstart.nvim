@@ -7,6 +7,7 @@ local function package_table(packages)
             vim.list_extend(ensure_installed, vim.tbl_keys(server_tbl))
         end
     end
+    return ensure_installed
 end
 
 local function register_lsp_server_config(lsp_packages)
@@ -61,7 +62,7 @@ return {
         register_lsp_server_config(packages.lsp)
 
         require('mason-lspconfig').setup {
-            -- ensure_installed = {},
+            ensure_installed = {},
             automatic_enable = {
                 exclude = excluded,
             },

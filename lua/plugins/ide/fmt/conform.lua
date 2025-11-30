@@ -1,4 +1,3 @@
--- NOTE: configuration: DONE (27.11.25)
 local tools = require 'plugins.ide.tooling'
 local formatters = tools.mason_packages.formatters
 

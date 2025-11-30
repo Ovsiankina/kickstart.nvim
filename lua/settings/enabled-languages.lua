@@ -1,3 +1,12 @@
+-- File name: enabled-languages.lua
+-- Author: ovsiankina
+-- Date created: 2025-11-30 16:00:29
+-- Date modified: 2025-11-30 16:00:34
+-- ----------------------------------
+-- Copyright (c) 2025 Ovsiankina <ovsiankina@proton.me>
+--
+-- All rights reserved.
+
 local M = {}
 
 M.c_cpp = false

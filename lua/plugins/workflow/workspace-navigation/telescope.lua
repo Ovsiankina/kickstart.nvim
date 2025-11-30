@@ -87,6 +87,14 @@ local keymaps = function()
     end, { desc = '[F]ind [N]eovim files' })
 end
 
+local mappings = {
+    i = {
+        ['<C-h>'] = 'which_key',
+        ['<C-j>'] = 'move_selection_next',
+        ['<C-k>'] = 'move_selection_previous',
+    },
+}
+
 return { -- Fuzzy Finder (files, lsp, etc)
     'nvim-telescope/telescope.nvim',
     event = 'VimEnter',
@@ -139,11 +147,9 @@ return { -- Fuzzy Finder (files, lsp, etc)
             -- You can put your default mappings / updates / etc. in here
             --  All the info you're looking for is in `:help telescope.setup()`
             --
-            -- defaults = {
-            --   mappings = {
-            --     i = { ['<c-enter>'] = 'to_fuzzy_refine' },
-            --   },
-            -- },
+            defaults = {
+                mappings = mappings,
+            },
             -- pickers = {}
             extensions = {
                 ['ui-select'] = {

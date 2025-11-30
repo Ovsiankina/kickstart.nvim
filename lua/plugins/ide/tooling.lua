@@ -6,9 +6,9 @@ M.mason_packages = {
     -- See `:help lspconfig-all` for a list of all the pre-configured LSPs
     lsp = {
         clangd = {}, -- C/C++
+        rust_analyzer = {}, -- rust
         gopls = {}, -- Go
         pyright = {}, -- python
-        -- rust_analyzer = {}, -- rust
         lemminx = {}, -- XML
         docker_compose_language_service = {}, -- Docker Compose
         dockerls = {}, -- Dockerfile
@@ -102,7 +102,7 @@ M.mason_packages = {
     },
 
     linters = {
-        bacon = {},
+        -- bacon = {},
         -- luacheck = {},
         markdownlint = {},
     },
@@ -119,12 +119,13 @@ M.linters_by_ft = function(lint)
     lint.linters_by_ft['markdown'] = { 'markdownlint' }
 
     -- if langs.rust then
-    lint.linters_by_ft['rust'] = { 'bacon' }
+    -- lint.linters_by_ft['rust'] = { 'bacon' }
     -- end
     --
     -- lint.linters_by_ft['lua'] = { 'luacheck' }
 end
 
+-- Required by Treesitter
 M.parsers = {
     'bash',
     'c',
@@ -139,6 +140,7 @@ M.parsers = {
     'query',
     'vim',
     'vimdoc',
+    'regex',
 }
 
 return M

@@ -10,42 +10,42 @@
 local keymaps =
     { -- Basic debugging keymaps, feel free to change to your liking!
         {
-            '<leader>Dc',
+            '<leader>dc',
             function()
                 require('dap').continue()
             end,
             desc = 'Debug: Start/Continue',
         },
         {
-            '<leader>Ds',
+            '<leader>ds',
             function()
                 require('dap').step_into()
             end,
             desc = 'Debug: Step Into',
         },
         {
-            '<leader>Do',
+            '<leader>do',
             function()
                 require('dap').step_over()
             end,
             desc = 'Debug: Step Over',
         },
         {
-            '<leader>DO',
+            '<leader>dO',
             function()
                 require('dap').step_out()
             end,
             desc = 'Debug: Step Out',
         },
         {
-            '<leader>Db',
+            '<leader>db',
             function()
                 require('dap').toggle_breakpoint()
             end,
             desc = 'Debug: Toggle Breakpoint',
         },
         {
-            '<leader>DB',
+            '<leader>dB',
             function()
                 require('dap').set_breakpoint(
                     vim.fn.input 'Breakpoint condition: '
@@ -55,11 +55,19 @@ local keymaps =
         },
         -- Toggle to see last session result. Without this, you can't see session output in case of unhandled exception.
         {
-            '<leader>Dt',
+            '<leader>dt',
             function()
                 require('dapui').toggle()
             end,
             desc = 'Toggle Debug: See last session result.',
+        },
+
+        {
+            '<leader>dK',
+            function()
+                require('dapui').float_element()
+            end,
+            desc = 'Debug: Inspect in floating window',
         },
     }
 
@@ -106,6 +114,8 @@ return {
     dependencies = {
         -- Creates a beautiful debugger UI
         'rcarriga/nvim-dap-ui',
+        -- Virtual text
+        'theHamsta/nvim-dap-virtual-text',
 
         -- Required dependency for nvim-dap-ui
         'nvim-neotest/nvim-nio',
@@ -121,6 +131,7 @@ return {
     config = function()
         local dap = require 'dap'
         local dapui = require 'dapui'
+        local dapvirt = require 'nvim-dap-virtual-text'
 
         -- local tools = require 'plugins.ide.tooling'
         -- local dap_packages = tools.mason_packages.dap
@@ -152,6 +163,8 @@ return {
                 icons = icons,
             },
         }
+
+        dapvirt.setup {}
 
         -- Change breakpoint icons
         breakpoint_icons()

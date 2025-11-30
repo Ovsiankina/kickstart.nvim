@@ -4,6 +4,7 @@ M.install = function()
     -- [[ Install `lazy.nvim` plugin manager ]]
     --    See `:help lazy.nvim.txt` or https://github.com/folke/lazy.nvim for more info
     local lazypath = vim.fn.stdpath 'data' .. '/lazy/lazy.nvim'
+    ---@diagnostic disable-next-line: undefined-field
     if not (vim.uv or vim.loop).fs_stat(lazypath) then
         local lazyrepo = 'https://github.com/folke/lazy.nvim.git'
         local out = vim.fn.system {
@@ -35,38 +36,56 @@ M.plugins = function()
     })
 end
 
+local p = 'plugins.'
+local work = p .. '.workflow.'
+local edit = p .. '.text-editing.'
+local lang = p .. '.languages.'
+local ide = p .. '.ide.'
+local ui = p .. '.ui.'
+local ui_comp = ui .. '.components.'
 M.imports = {
     -- [[ Grouped plugins ]]
 
     -- [[ Text-editing ]]
     -- Plugins that makes the writting part of coding much more pleasant ! Think blink, mini, indentation, autopairs, etc.
-    { import = 'plugins.text-editing' },
+    { import = edit .. 'hints' },
+    { import = edit .. 'navigation' },
+    { import = edit .. 'snippets' },
+    { import = edit .. 'tools' },
 
     -- [[ General workflow ]]
     -- Plugins that helps your workflow.
     -- Think file navigation with Telescope !
-    { import = 'plugins.workflow' },
+    { import = work .. 'workspace-navigation' },
+    { import = work .. 'state' },
+    { import = work .. 'project-managment' },
 
     -- [[ UI plugins ]]
     -- UI plugins regroup everything that adds styling to new modules in the editor environment.
     -- Think oil.nvim or git-signs.
-    { import = 'plugins.ui' },
-    { import = 'plugins.ui.file_explorer' },
-    { import = 'plugins.ui.git' },
-    { import = 'plugins.ui.statusline' },
-    { import = 'plugins.ui.styling' },
+    { import = ui },
+    { import = ui .. 'styling' },
+    --
+    -- [[ Components (UI sub-group) ]]
+    -- Plugins that add or modify specific components part of the UI. Examples
+    -- include adding a bufferline and modifying the existing signcolumn.
+    { import = ui_comp .. 'statusline' },
+    { import = ui_comp .. 'signcolumn' },
+    { import = ui_comp .. 'file_explorer' },
+    { import = ui_comp .. 'top-bar' }, -- not a very good name but whatever
 
     -- [[ IDE tooling ]]
     -- Plugins all arond powerful IDE tooling such as LSPs, DAPs, linters and formatters
     --
     -- 'IDE-tooling' is named after how `mason.nvim` describes what it handles i.e: external editor tooling such as LSP servers, DAP servers, linters, and formatters
-    -- WARN: Do not import 'plugins.ide'. This will return the 'plugin.ide.tooling' tables !
-    { import = 'plugins.ide.mason' },
-    { import = 'plugins.ide.lsp' },
-    { import = 'plugins.ide.dap' },
-    { import = 'plugins.ide.lint' },
-    { import = 'plugins.ide.fmt' },
-    { import = 'plugins.ide.parser' },
+    { import = ide .. 'mason' },
+    { import = ide .. 'lsp' },
+    { import = ide .. 'dap' },
+    { import = ide .. 'lint' },
+    { import = ide .. 'fmt' },
+    { import = ide .. 'parser' },
+
+    { import = lang .. 'rust' },
 }
 
 --  [[ Language specific plugins ]]
