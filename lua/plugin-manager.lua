@@ -65,6 +65,10 @@ M.imports = {
     -- Think oil.nvim or git-signs.
     { import = ui },
     { import = ui .. 'styling' },
+    -- Special folder for ChadNV "stolen" plugins
+    -- I like the design but I don't want the bloat nor be constrained by
+    -- opinonated design :)
+    { import = ui .. 'NvUI' },
     --
     -- [[ Components (UI sub-group) ]]
     -- Plugins that add or modify specific components part of the UI. Examples

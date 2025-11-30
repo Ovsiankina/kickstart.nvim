@@ -1,6 +1,20 @@
+local function safe_get_hl(name)
+    -- Try reading the highlight; return fallback on failure
+    local ok, hl = pcall(vim.api.nvim_get_hl, 0, { name = name })
+    if not ok or not hl then
+        return { fg = { 200, 200, 200 } } -- fallback RGB
+    end
+    return hl
+end
+
+local function safe_set_hl(name, spec)
+    -- Prevent crashes when colorscheme wipes groups
+    pcall(vim.api.nvim_set_hl, 0, name, spec)
+end
+
 local function extract_rgb(hl)
     if not hl or not hl.fg then
-        return 200, 200, 200 -- safe fallback
+        return 200, 200, 200
     end
     if type(hl.fg) == 'number' then
         local c = hl.fg
@@ -9,7 +23,7 @@ local function extract_rgb(hl)
         local b = c % 256
         return r, g, b
     elseif type(hl.fg) == 'table' then
-        return hl.fg[1], hl.fg[2], hl.fg[3]
+        return hl.fg[1] or 200, hl.fg[2] or 200, hl.fg[3] or 200
     end
     return 200, 200, 200
 end
@@ -23,13 +37,12 @@ local function hl_hex(r, g, b)
 end
 
 local function define_indent_highlight_groups()
-    local default_hl = vim.api.nvim_get_hl(0, { name = 'IblIndent' })
+    local default_hl = safe_get_hl 'IblIndent'
     local base_r, base_g, base_b = extract_rgb(default_hl)
 
-    local error_hl = vim.api.nvim_get_hl(0, { name = 'Error' })
+    local error_hl = safe_get_hl 'Error'
     local err_r, err_g, err_b = extract_rgb(error_hl)
 
-    -- shallow indent scales (default color)
     local shallow_factors = { 1.0, 0.75, 0.55 }
     local shallow_names = {
         'IndentLevel1',
@@ -39,12 +52,9 @@ local function define_indent_highlight_groups()
 
     for i, k in ipairs(shallow_factors) do
         local r, g, b = scale_rgb(base_r, base_g, base_b, k)
-        vim.api.nvim_set_hl(0, shallow_names[i], {
-            fg = hl_hex(r, g, b),
-        })
+        safe_set_hl(shallow_names[i], { fg = hl_hex(r, g, b) })
     end
 
-    -- deep indent scales (Error color)
     local deep_factors = { 0.35, 0.65, 1.0 }
     local deep_names = {
         'IndentTooDeep4',
@@ -54,12 +64,9 @@ local function define_indent_highlight_groups()
 
     for i, k in ipairs(deep_factors) do
         local r, g, b = scale_rgb(err_r, err_g, err_b, k)
-        vim.api.nvim_set_hl(0, deep_names[i], {
-            fg = hl_hex(r, g, b),
-        })
+        safe_set_hl(deep_names[i], { fg = hl_hex(r, g, b) })
     end
 
-    -- build ibl highlight list
     local h = {
         'IndentLevel1',
         'IndentLevel2',
@@ -81,8 +88,6 @@ return {
     main = 'ibl',
     config = function()
         local h = define_indent_highlight_groups()
-        -- NOTE: cannot use `opts = {}` here because we require the plugin
-        -- itself as well as a function call
         require('ibl').setup {
             indent = { highlight = h },
         }

@@ -1,7 +1,7 @@
 -- File name: vim.lua
 -- Author: ovsiankina
 -- Date created: 2025-11-30 15:30:02
--- Date modified: 2025-11-30 15:31:57
+-- Date modified: 2025-11-30 17:52:31
 -- ----------------------------------
 -- Copyright (c) 2025 Ovsiankina <ovsiankina@proton.me>
 --
@@ -162,6 +162,13 @@ M.keymaps = function()
         '<C-k>',
         '<C-w><C-k>',
         { desc = 'Move focus to the upper window' }
+    )
+
+    vim.keymap.set(
+        'n',
+        '<C-h>',
+        '<C-w><C-h>',
+        { desc = 'Move focus to the left window' }
     )
 
     -- NOTE: Some terminals have colliding keymaps or are not able to send distinct keycodes

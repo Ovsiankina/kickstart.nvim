@@ -9,13 +9,9 @@ return {
 
     -- BUG: Without lazy set to false, the plugin never loads
     -- proprely on call
-    lazy = false,
+    lazy = true,
 
     dependencies = { 'folke/noice.nvim' },
-    opts = {
-        require('noice').setup {
-            presets = { inc_rename = true },
-        },
-    },
+    opts = {},
     keys = keymaps,
 }

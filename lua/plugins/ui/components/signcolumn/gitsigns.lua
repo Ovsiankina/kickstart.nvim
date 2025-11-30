@@ -9,6 +9,7 @@ local function map(mode, l, r, opts, bufnr)
     vim.keymap.set(mode, l, r, opts)
 end
 
+---@diagnostic disable-next-line: unused-local
 local function keymaps(gitsigns, bufnr)
     -- Navigation
     map('n', ']c', function()
