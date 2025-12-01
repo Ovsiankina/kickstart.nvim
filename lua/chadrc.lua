@@ -1,7 +1,7 @@
 -- File name: chadrc.lua
 -- Author: ovsiankina
 -- Date created: 2025-11-30 17:25:05
--- Date modified: 2025-11-30 17:43:39
+-- Date modified: 2025-12-01 11:05:43
 -- ----------------------------------
 -- Copyright (c) 2025 Ovsiankina <ovsiankina@proton.me>
 --
@@ -35,7 +35,7 @@ local options = {
         },
         integrations = {},
         changed_themes = {},
-        transparency = false, -- terminal is already transparent. It'll just remove bg color
+        transparency = true, -- terminal is already transparent. It'll just remove bg color
         theme_toggle = { 'tokyonight', 'one_light' },
     },
     { import = 'nvchad.blink.lazyspec' },
