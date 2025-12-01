@@ -1,3 +1,12 @@
+-- File name: tooling.lua
+-- Author: ovsiankina
+-- Date created: 2025-11-29 19:27:17
+-- Date modified: 2025-11-30 19:30:39
+-- ----------------------------------
+-- Copyright (c) 2025 Ovsiankina <ovsiankina@proton.me>
+--
+-- All rights reserved.
+
 local M = {}
 
 -- local langs = require 'settings.enabled-languages'
@@ -89,8 +98,12 @@ M.mason_packages = {
     },
 
     formatters = {
-        stylua = {},           -- Lua
-        markdownlint = {},     -- Markdown
+        stylua = {
+            command = 'stylua',
+            args = { '--column-width', '80' },
+            stdin = true,
+        },
+        markdownlint = {}, -- Markdown
         -- isort = {}, -- Python
         black = {},            -- Python
         -- prettierd = {}, -- Angular, CSS, HTML, JSON, JSX, JS, LESS, Markdown, SCSS, TS, Vue, YAML

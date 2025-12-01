@@ -59,6 +59,7 @@ M.imports = {
     { import = work .. 'workspace-navigation' },
     { import = work .. 'state' },
     { import = work .. 'project-managment' },
+    { import = work .. 'splits' },
 
     -- [[ UI plugins ]]
     -- UI plugins regroup everything that adds styling to new modules in the editor environment.

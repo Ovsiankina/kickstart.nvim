@@ -125,6 +125,7 @@ local opts = {
 }
 
 keymaps.global()
+
 return {
     {
         'stevearc/oil.nvim',

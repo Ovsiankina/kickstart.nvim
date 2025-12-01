@@ -193,13 +193,14 @@ return {
             signs = vim.g.have_nerd_font and {
                 text = text_icons,
             } or {},
-            virtual_text = {
-                source = 'if_many',
-                spacing = 2,
-                format = function(diagnostic)
-                    return diagnostic.message
-                end,
-            },
+            -- virtual_text = {
+            --     source = 'if_many',
+            --     spacing = 2,
+            --     format = function(diagnostic)
+            --         return diagnostic.message
+            --     end,
+            -- },
+            virtual_text = false, -- Replaced by 'tiny-inline-diagnostic.nvim'
         }
     end,
 }

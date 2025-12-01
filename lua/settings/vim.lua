@@ -1,7 +1,7 @@
 -- File name: vim.lua
 -- Author: ovsiankina
 -- Date created: 2025-11-30 15:30:02
--- Date modified: 2025-11-30 17:52:31
+-- Date modified: 2025-11-30 18:58:28
 -- ----------------------------------
 -- Copyright (c) 2025 Ovsiankina <ovsiankina@proton.me>
 --
@@ -176,6 +176,21 @@ M.keymaps = function()
     -- vim.keymap.set("n", "<C-S-l>", "<C-w>L", { desc = "Move window to the right" })
     -- vim.keymap.set("n", "<C-S-j>", "<C-w>J", { desc = "Move window to the lower" })
     -- vim.keymap.set("n", "<C-S-k>", "<C-w>K", { desc = "Move window to the upper" })
+
+    local aliases = {
+        W = 'w',
+        Wa = 'wa',
+        Wq = 'wq',
+        Wqa = 'wqa',
+        Q = 'q',
+        Qa = 'qa',
+    }
+
+    for alias, target in pairs(aliases) do
+        vim.api.nvim_create_user_command(alias, function()
+            vim.cmd(target)
+        end, {})
+    end
 end
 
 M.autocommand = function()
@@ -263,4 +278,3 @@ M.autocommand = function()
 end
 
 return M
--- vim: ts=2 sts=2 sw=2 et
