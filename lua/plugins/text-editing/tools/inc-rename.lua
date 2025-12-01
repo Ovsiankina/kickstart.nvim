@@ -9,7 +9,7 @@ return {
 
     -- BUG: Without lazy set to false, the plugin never loads
     -- proprely on call
-    lazy = true,
+    lazy = false,
 
     dependencies = { 'folke/noice.nvim' },
     opts = {},
