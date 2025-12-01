@@ -1,7 +1,7 @@
 -- File name: vim.lua
 -- Author: ovsiankina
 -- Date created: 2025-11-30 15:30:02
--- Date modified: 2025-11-30 18:58:28
+-- Date modified: 2025-12-01 17:32:19
 -- ----------------------------------
 -- Copyright (c) 2025 Ovsiankina <ovsiankina@proton.me>
 --
@@ -216,18 +216,31 @@ M.autocommand = function()
     --          │                   Custom Autocommands                   │
     --          ╰─────────────────────────────────────────────────────────╯
 
+    local blacklist = {
+        markdown = true, -- add more filetypes later: blacklist["foo"] = true
+        md = true,
+    }
     autocmd('BufWritePre', {
         desc = "Update header's date modified",
         group = augroup('update-header-date', { clear = true }),
-        callback = function()
-            local header = require 'header'
-            if header and header.update_date_modified then
+        callback = function(args)
+            local bt = vim.bo[args.buf].buftype
+            local fname = vim.api.nvim_buf_get_name(args.buf)
+            local ft = vim.bo[args.buf].filetype
+
+            -- skip non-file buffers
+            if
+                bt ~= ''
+                or fname == ''
+                or vim.fn.filereadable(fname) == 0
+                or blacklist[ft]
+            then
+                return
+            end
+
+            local ok, header = pcall(require, 'header')
+            if ok and header and header.update_date_modified then
                 header.update_date_modified()
-            else
-                vim.notify_once(
-                    'header.update_date_modified is not available',
-                    vim.log.levels.WARN
-                )
             end
         end,
     })

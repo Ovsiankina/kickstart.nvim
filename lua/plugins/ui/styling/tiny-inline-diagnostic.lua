@@ -1,7 +1,7 @@
 -- File name: tiny-inline-diagnostic.lua
 -- Author: ovsiankina
 -- Date created: 2025-11-30 19:02:23
--- Date modified: 2025-11-30 19:30:50
+-- Date modified: 2025-12-01 17:14:43
 -- ----------------------------------
 -- Copyright (c) 2025 Ovsiankina <ovsiankina@proton.me>
 --

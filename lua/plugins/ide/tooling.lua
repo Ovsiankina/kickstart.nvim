@@ -1,7 +1,7 @@
 -- File name: tooling.lua
 -- Author: ovsiankina
 -- Date created: 2025-11-29 19:27:17
--- Date modified: 2025-11-30 19:30:39
+-- Date modified: 2025-12-01 17:18:21
 -- ----------------------------------
 -- Copyright (c) 2025 Ovsiankina <ovsiankina@proton.me>
 --
@@ -14,14 +14,14 @@ local M = {}
 M.mason_packages = {
     -- See `:help lspconfig-all` for a list of all the pre-configured LSPs
     lsp = {
-        clangd = {},                          -- C/C++
-        rust_analyzer = {},                   -- rust
-        gopls = {},                           -- Go
-        pyright = {},                         -- python
-        lemminx = {},                         -- XML
+        clangd = {}, -- C/C++
+        rust_analyzer = {}, -- rust
+        gopls = {}, -- Go
+        pyright = {}, -- python
+        lemminx = {}, -- XML
         docker_compose_language_service = {}, -- Docker Compose
-        dockerls = {},                        -- Dockerfile
-        hyprls = {},                          -- Hyprland .conf files
+        dockerls = {}, -- Dockerfile
+        hyprls = {}, -- Hyprland .conf files
         lua_ls = {
             -- cmd = { 'echo', 'hello world' },
             -- filetypes = { ... },
@@ -63,8 +63,8 @@ M.mason_packages = {
         shellcheck = {},
 
         intelephense = {},
+        -- License key has to be placed in `~/.config/intelephense/licence.txt`
         laravel_ls = {},
-        -- License key has to be placed in `~/intelephense/licence.txt`
         -- Backup licence key can be found in password manager
         -- qmlls = {
         --     cmd = {
@@ -105,9 +105,9 @@ M.mason_packages = {
         },
         markdownlint = {}, -- Markdown
         -- isort = {}, -- Python
-        black = {},            -- Python
+        black = {}, -- Python
         -- prettierd = {}, -- Angular, CSS, HTML, JSON, JSX, JS, LESS, Markdown, SCSS, TS, Vue, YAML
-        shfmt = {},            -- bash, sh, zsh
+        shfmt = {}, -- bash, sh, zsh
         ['clang-format'] = {}, -- C/C++
     },
 

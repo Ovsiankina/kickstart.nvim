@@ -1,7 +1,7 @@
 -- File name: chadrc.lua
 -- Author: ovsiankina
 -- Date created: 2025-11-30 17:25:05
--- Date modified: 2025-12-01 11:05:43
+-- Date modified: 2025-12-01 19:00:06
 -- ----------------------------------
 -- Copyright (c) 2025 Ovsiankina <ovsiankina@proton.me>
 --
@@ -31,12 +31,14 @@ local options = {
                 fg = '#FFA500', -- same or brighter orange
                 bold = true,
             },
-            -- ['@constructor'] = { fg = '#79A1F5' },
+            ['@constructor'] = { fg = '#79A1F5' },
         },
         integrations = {},
         changed_themes = {},
-        transparency = true, -- terminal is already transparent. It'll just remove bg color
-        theme_toggle = { 'tokyonight', 'one_light' },
+        -- BUG: transparency set to true fucks with base46 telescope theming
+        -- NOTE: terminal is already transparent. It'll just remove bg color
+        transparency = false,
+        theme_toggle = { 'tokyonight', 'tokyodark' },
     },
     { import = 'nvchad.blink.lazyspec' },
     ui = {

@@ -66,6 +66,7 @@ M.imports = {
     -- Think oil.nvim or git-signs.
     { import = ui },
     { import = ui .. 'styling' },
+    { import = ui .. 'rendering' },
     -- Special folder for ChadNV "stolen" plugins
     -- I like the design but I don't want the bloat nor be constrained by
     -- opinonated design :)
@@ -76,7 +77,7 @@ M.imports = {
     -- include adding a bufferline and modifying the existing signcolumn.
     { import = ui_comp .. 'statusline' },
     { import = ui_comp .. 'signcolumn' },
-    { import = ui_comp .. 'file_explorer' },
+    { import = ui_comp .. 'left-panel' },
     { import = ui_comp .. 'top-bar' }, -- not a very good name but whatever
 
     -- [[ IDE tooling ]]
