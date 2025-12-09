@@ -43,6 +43,7 @@ local lang = p .. '.languages.'
 local ide = p .. '.ide.'
 local ui = p .. '.ui.'
 local ui_comp = ui .. '.components.'
+local spe = p .. '.special.'
 M.imports = {
     -- [[ Grouped plugins ]]
 
