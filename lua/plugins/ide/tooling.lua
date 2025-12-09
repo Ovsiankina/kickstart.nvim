@@ -1,7 +1,7 @@
 -- File name: tooling.lua
 -- Author: ovsiankina
 -- Date created: 2025-11-29 19:27:17
--- Date modified: 2025-12-01 17:18:21
+-- Date modified: 2025-12-09 13:55:02
 -- ----------------------------------
 -- Copyright (c) 2025 Ovsiankina <ovsiankina@proton.me>
 --
@@ -14,6 +14,7 @@ local M = {}
 M.mason_packages = {
     -- See `:help lspconfig-all` for a list of all the pre-configured LSPs
     lsp = {
+        ltex = {},
         clangd = {}, -- C/C++
         rust_analyzer = {}, -- rust
         gopls = {}, -- Go
@@ -98,11 +99,7 @@ M.mason_packages = {
     },
 
     formatters = {
-        stylua = {
-            command = 'stylua',
-            args = { '--column-width', '80' },
-            stdin = true,
-        },
+        stylua = {},
         markdownlint = {}, -- Markdown
         -- isort = {}, -- Python
         black = {}, -- Python
@@ -127,6 +124,7 @@ M.mason_packages = {
 -- https://vi.stackexchange.com/questions/46856/neovim-duplicate-lsp-clients-attached-to-the-buffer
 M.excluded_packages = {
     'rust_analyzer', -- Already called by rustaceanvim
+    'ltex',
 }
 
 M.linters_by_ft = function(lint)

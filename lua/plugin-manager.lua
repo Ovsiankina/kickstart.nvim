@@ -92,6 +92,8 @@ M.imports = {
     { import = ide .. 'parser' },
 
     { import = lang .. 'rust' },
+    { import = lang .. 'lua' },
+    { import = lang .. 'markdown' },
 }
 
 --  [[ Language specific plugins ]]
