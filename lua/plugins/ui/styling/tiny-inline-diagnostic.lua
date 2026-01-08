@@ -1,7 +1,7 @@
 -- File name: tiny-inline-diagnostic.lua
 -- Author: ovsiankina
 -- Date created: 2025-11-30 19:02:23
--- Date modified: 2025-12-01 17:14:43
+-- Date modified: 2025-12-04 08:53:06
 -- ----------------------------------
 -- Copyright (c) 2025 Ovsiankina <ovsiankina@proton.me>
 --
@@ -19,11 +19,11 @@ local opts = {
     },
     overflow = {
         mode = 'wrap', -- "wrap": split into lines, "none": no truncation, "oneline": keep single line
-        padding = 0, -- Extra characters to trigger wrapping earlier
+        padding = 0,   -- Extra characters to trigger wrapping earlier
     },
     break_line = {
         enabled = true, -- Enable automatic line breaking
-        after = 30, -- Number of characters before inserting a line break
+        after = 30,     -- Number of characters before inserting a line break
     },
     -- signs = {
     --     left = '',

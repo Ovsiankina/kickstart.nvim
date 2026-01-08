@@ -43,7 +43,7 @@ require('plugin-manager').plugins()
 
 -- Load all highlights at once
 for _, v in ipairs(vim.fn.readdir(vim.g.base46_cache)) do
-    dofile(vim.g.base46_cache .. v)
+  dofile(vim.g.base46_cache .. v)
 end
 
 -- -- The line beneath this is called `modeline`. See `:help modeline`
