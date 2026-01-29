@@ -37,9 +37,9 @@ require('settings.vim').autocommand()
 vim.g.base46_cache = vim.fn.stdpath 'data' .. '/base46_cache/'
 
 -- Lazy.nvim plugin manager
--- TODO: automate MASON tools and LAZY updates
 require('plugin-manager').install()
 require('plugin-manager').plugins()
+require('plugin-manager').updater()
 
 -- Load all highlights at once
 for _, v in ipairs(vim.fn.readdir(vim.g.base46_cache)) do

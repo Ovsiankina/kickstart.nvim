@@ -33,7 +33,107 @@ M.plugins = function()
       -- default lazy.nvim defined Nerd Font icons, otherwise define a unicode icons table
       icons = vim.g.have_nerd_font and {} or M.icons,
     },
+    checker = {
+      enabled = true,
+      notify = false, -- We handle notifications in M.updater() with /tmp flag
+      frequency = 86400,
+    },
   })
+end
+
+M.updater = function()
+  local flag_file = '/tmp/nvim-lazy-mason-updater-flag'
+
+  ---------------------------------------------------------------------------
+  -- Lazy
+  ---------------------------------------------------------------------------
+  local function lazy_check()
+    require('lazy.manage.checker').check()
+  end
+
+  local function lazy_get_updates()
+    local updates = {}
+    for _, plugin in ipairs(require('lazy.manage.checker').updated) do
+      table.insert(updates, plugin.name)
+    end
+    return updates
+  end
+
+  local function lazy_update()
+    vim.cmd 'Lazy update'
+  end
+
+  ---------------------------------------------------------------------------
+  -- Mason
+  ---------------------------------------------------------------------------
+  local function mason_update()
+    vim.cmd 'MasonToolsUpdate'
+  end
+
+  ---------------------------------------------------------------------------
+  -- Combined
+  ---------------------------------------------------------------------------
+  local function update_all()
+    local lazy_updates = lazy_get_updates()
+    local msg = ''
+
+    if #lazy_updates > 0 then
+      msg = 'Lazy plugins to update:\n'
+      for _, name in ipairs(lazy_updates) do
+        msg = msg .. '  - ' .. name .. '\n'
+      end
+    else
+      msg = 'Lazy plugins: all up to date'
+    end
+    msg = msg .. '\n\nMason tools will also be checked.\n\nProceed with update?'
+
+    vim.ui.select({ 'Yes', 'No' }, { prompt = msg }, function(choice)
+      if choice == 'Yes' then
+        lazy_update()
+        mason_update()
+      end
+    end)
+  end
+
+  -- TODO: Bug - LazyCheck event not firing or checker.updated empty.
+  -- Intent: check for Lazy+Mason updates once per session using /tmp flag,
+  -- notify user if updates available. Currently notification never shows.
+  local function check_once_per_session()
+    if vim.uv.fs_stat(flag_file) then
+      return
+    end
+
+    local fd = vim.uv.fs_open(flag_file, 'w', 438)
+    if fd then
+      vim.uv.fs_close(fd)
+    end
+
+    -- Listen for LazyCheck event (fires when checker completes)
+    vim.api.nvim_create_autocmd('User', {
+      pattern = 'LazyCheck',
+      once = true,
+      callback = function()
+        local lazy_updates = lazy_get_updates()
+        if #lazy_updates > 0 then
+          vim.notify(
+            #lazy_updates .. ' plugin update(s) available. Use <leader>Syu to update.',
+            vim.log.levels.INFO
+          )
+        end
+      end,
+    })
+
+    -- Trigger check after startup
+    vim.defer_fn(lazy_check, 1000)
+  end
+
+  ---------------------------------------------------------------------------
+  -- Entrypoint: register commands, keymaps, and run session check
+  ---------------------------------------------------------------------------
+  vim.api.nvim_create_user_command('UpdateAll', update_all, { desc = 'Update Lazy plugins and Mason tools' })
+  vim.keymap.set('n', '<leader>Syu', update_all, { desc = '[S]ync [y]our [u]pdates (Lazy + Mason)' })
+
+  check_once_per_session()
 end
 
 local p = 'plugins.'
@@ -95,6 +195,7 @@ M.imports = {
   { import = lang .. 'rust' },
   { import = lang .. 'lua' },
   { import = lang .. 'markdown' },
+  { import = lang .. 'latex' },
 
   { import = spe },
 }
