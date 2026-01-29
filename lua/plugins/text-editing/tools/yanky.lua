@@ -7,7 +7,7 @@
 --
 -- All rights reserved.
 
--- TODO: finish config
+-- TODO: study yanky.nvim opts (ring, highlight, clipboard sync) and finalize keymaps
 
 local function keymaps()
     -- vim.keymap.set({ 'n', 'x' }, 'p', '<Plug>(YankyPutAfter)')
