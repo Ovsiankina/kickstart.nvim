@@ -43,5 +43,5 @@ keymaps()
 
 return {
     'mbbill/undotree',
-    lazy = true,
+    lazy = false,
 }
