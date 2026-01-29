@@ -45,7 +45,6 @@ M.mason_packages = {
             },
         },
         marksman = {},
-        -- todo: make sure bashls is enabled in .zsh files
         bashls = {
             filetypes = { 'sh', 'bash', 'zsh' }, -- if you also write zsh; optional
             -- root_dir = { '.git',},
@@ -62,9 +61,26 @@ M.mason_packages = {
         },
         shellcheck = {},
 
-        intelephense = {},
+        -- intelephense = {},
         -- License key has to be placed in `~/.config/intelephense/licence.txt`
-        laravel_ls = {},
+        -- laravel_ls = {},
+        eslint = {},
+        ast_grep = {},
+        -- NOTE: ltex_extra.nvim provides code actions
+        -- but we start the server via mason-lspconfig
+        -- ltex = {
+        --     settings = {
+        --         ltex = {
+        --             language = 'auto',
+        --             diagnosticSeverity = 'information',
+        --             sentenceCacheSize = 2000,
+        --             additionalRules = {
+        --                 enablePickyRules = true,
+        --                 motherTongue = 'fr',
+        --             },
+        --         },
+        --     },
+        -- },
         -- Backup licence key can be found in password manager
         -- qmlls = {
         --     cmd = {
@@ -99,7 +115,7 @@ M.mason_packages = {
 
     formatters = {
         stylua = {},
-        markdownlint = {}, -- Markdown
+        markdownlint = {},     -- Markdown
         -- isort = {}, -- Python
         black = {},            -- Python
         -- prettierd = {}, -- Angular, CSS, HTML, JSON, JSX, JS, LESS, Markdown, SCSS, TS, Vue, YAML
@@ -123,7 +139,6 @@ M.mason_packages = {
 -- https://vi.stackexchange.com/questions/46856/neovim-duplicate-lsp-clients-attached-to-the-buffer
 M.excluded_packages = {
     'rust_analyzer', -- Already called by rustaceanvim
-    'ltex',
 }
 
 M.linters_by_ft = function(lint)
