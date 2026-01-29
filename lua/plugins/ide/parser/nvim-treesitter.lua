@@ -1,9 +1,27 @@
 local tools = require 'plugins.ide.tooling'
+
+-- todo: change keymap to respec the <leader>+g... which are "pseudo-lsp" , linters, etc. commands
+local keymaps = function()
+    vim.keymap.set(
+        'n',
+        '<leader>ti',
+        '<cmd>Inspect<cr>',
+        { desc = '[T]reesitter [I]nspect' }
+    )
+    vim.keymap.set(
+        'n',
+        '<leader>tI',
+        '<cmd>InspectTree<cr>',
+        { desc = '[T]reesitter [I]nspect tree' }
+    )
+end
+
 return { -- Highlight, edit, and navigate code
     'nvim-treesitter/nvim-treesitter',
     build = ':TSUpdate',
     main = 'nvim-treesitter.configs', -- Sets main module to use for opts
     -- [[ Configure Treesitter ]] See `:help nvim-treesitter`
+    keys = keymaps(),
     opts = {
         ensure_installed = tools.parsers,
         -- Autoinstall languages that are not installed
@@ -19,8 +37,6 @@ return { -- Highlight, edit, and navigate code
     },
     -- TODO: There are additional nvim-treesitter modules that you can use to interact
     -- with nvim-treesitter. You should go explore a few and see what interests you:
-    --
-    -- TODO: Add the inspect keymap (right mouse click allows this option)
     --    - Incremental selection: Included, see `:help nvim-treesitter-incremental-selection-mod`
     --    - Show your current context: https://github.com/nvim-treesitter/nvim-treesitter-context
     --    - Treesitter + textobjects: https://github.com/nvim-treesitter/nvim-treesitter-textobjects
