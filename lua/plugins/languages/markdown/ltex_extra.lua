@@ -9,11 +9,14 @@
 
 -- New plugin block (example: add alongside other plugin specs)
 
+-- TODO: Re-enable when ltex_extra.nvim migrates to vim.lsp.config
+-- Tracking: https://github.com/barreiroleo/ltex_extra.nvim (check dev branch)
+-- Related: https://github.com/neovim/nvim-lspconfig/issues/3494
 return {
     'barreiroleo/ltex_extra.nvim',
+    enabled = false, -- Disabled: uses deprecated require('lspconfig')
     ft = { 'markdown', 'tex' },
     dependencies = { 'neovim/nvim-lspconfig' },
-    -- yes, you can use the opts field, just I'm showing the setup explicitly
     config = function()
         local capabilities = require('blink.cmp').get_lsp_capabilities()
         require('ltex_extra').setup {
