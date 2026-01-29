@@ -1,25 +1,49 @@
+vim.keymap.set('n', '<leader>nd', function()
+    require('noice').cmd 'dismiss'
+end, { desc = '[N]otification [D]ismiss' })
+
 return {
     'folke/noice.nvim',
     event = 'VeryLazy',
+    config = function(_, opts)
+        require('noice').setup(opts)
+
+        -- If the prompt stays green, it’s usually because the colorscheme (or theme plugin)
+        -- reapplies highlights after Noice is set up. So we set it now *and* on ColorScheme.
+        local function set_noice_hls()
+            vim.api.nvim_set_hl(0, 'NoiceCmdlinePrompt', { fg = '#ED6D84' })
+        end
+
+        set_noice_hls()
+        vim.api.nvim_create_autocmd('ColorScheme', {
+            group = vim.api.nvim_create_augroup(
+                'NoiceHighlights',
+                { clear = true }
+            ),
+            callback = set_noice_hls,
+        })
+
+        keymaps()
+    end,
+
     opts = {
         lsp = {
             -- override markdown rendering so that **cmp** and other plugins use **Treesitter**
             -- override = {
-            --     ['vim.lsp.util.convert_input_to_markdown_lines'] = true,
-            --     ['vim.lsp.util.stylize_markdown'] = true,
-            --     ['cmp.entry.get_documentation'] = true, -- requires hrsh7th/nvim-cmp
+            --   ["vim.lsp.util.convert_input_to_markdown_lines"] = true,
+            --   ["vim.lsp.util.stylize_markdown"] = true,
+            --   ["cmp.entry.get_documentation"] = true, -- requires hrsh7th/nvim-cmp
             -- },
         },
-        -- you can enable a preset for easier configuration
+
         presets = {
-            bottom_search = true, -- use a classic bottom cmdline for search
-            -- set command_palette to false to have the cmdline and popupmenu at
-            -- the center of the screen
-            command_palette = false, -- position the cmdline and popupmenu together
-            long_message_to_split = true, -- long messages will be sent to a split
-            inc_rename = true, -- enables an input dialog for inc-rename.nvim
-            lsp_doc_border = false, -- add a border to hover docs and signature help
+            bottom_search = true,
+            command_palette = false,
+            long_message_to_split = true,
+            inc_rename = true,
+            lsp_doc_border = false,
         },
+
         views = {
             cmdline_popup = {
                 border = {
@@ -27,14 +51,15 @@ return {
                     padding = { 1, 2 }, -- { height, width }
                 },
                 position = {
-                    -- row = 5,
                     col = '50%',
                 },
                 filter_options = {},
                 win_options = {
                     winhighlight = 'NormalFloat:NormalFloat,FloatBorder:FloatBorder',
+                    winblend = 0, -- non-transparent
                 },
             },
+
             popupmenu = {
                 relative = 'editor',
                 position = {
@@ -49,27 +74,54 @@ return {
                     style = 'none',
                     padding = { 0, 1 },
                 },
-                -- win_options = {
-                --     winhighlight = { Normal = 'Normal', FloatBorder = 'DiagnosticInfo' },
-                -- },
+            },
+
+            -- Route notifications into a Noice popup view (styled like cmdline_popup)
+            notify_popup = {
+                view = 'cmdline_popup', -- inherit the same style
+                position = {
+                    row = '50%',
+                    col = '100%',
+                    anchor = 'SE',
+                },
+                size = {
+                    width = 60,
+                    height = 'auto',
+                },
+                win_options = {
+                    winhighlight = 'NormalFloat:NormalFloat,FloatBorder:FloatBorder',
+                    winblend = 0,
+                },
+                border = {
+                    style = 'none',
+                    padding = { 1, 2 },
+                },
+                timeout = 1000, -- 1.5s (default is 3000)
             },
         },
-        -- NOTE: '@recording' don't show anymore with noice. We can either use
-        -- notify.nvim (cdoe block below)to display these messages or make a
-        -- lualine module. (I chose the lualine module.)
-        -- routes = {
-        --     {
-        --         view = 'notify',
-        --         filter = { event = 'msg_showmode' },
-        --     },
-        -- },
+
+        routes = {
+            -- vim.notify messages
+            { filter = { event = 'notify' }, view = 'notify_popup' },
+
+            -- capture yank messages and show them in the same popup
+            {
+                filter = { event = 'msg_show', find = 'yanked' },
+                view = 'notify_popup',
+            },
+        },
     },
+
     dependencies = {
-        -- if you lazy-load any plugin below, make sure to add proper `module="..."` entries
         'MunifTanjim/nui.nvim',
-        -- OPTIONAL:
-        --   `nvim-notify` is only needed, if you want to use the notification view.
-        --   If not available, we use `mini` as the fallback
-        'rcarriga/nvim-notify',
+        {
+            'rcarriga/nvim-notify',
+            -- opts = {
+            --     render = 'wrapped-compact',
+            --     stages = 'fade',
+            --     timeout = 100,
+            --     top_down = false, -- harmless here; useful if anything still uses nvim-notify
+            -- },
+        },
     },
 }
