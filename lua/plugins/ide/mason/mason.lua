@@ -53,11 +53,10 @@ return {
         ---------------------------------------------------------------------------
         require('mason').setup()
 
-        -- TODO: verify this ai slop (code works but is it good and is the comment below correct?)
         ---------------------------------------------------------------------------
-        -- v2 flow (Neovim 0.11+): define configs up-front via vim.lsp.config()
+        -- Neovim 0.11+ LSP setup: register configs via vim.lsp.config()
+        -- mason-lspconfig will auto-enable servers (except those in excluded)
         ---------------------------------------------------------------------------
-        -- Register server configs
 
         register_lsp_server_config(packages.lsp)
 
