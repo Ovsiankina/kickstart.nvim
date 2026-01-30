@@ -1,10 +1,14 @@
-vim.keymap.set('n', '<leader>nd', function()
-    require('noice').cmd 'dismiss'
-end, { desc = '[N]otification [D]ismiss' })
+local function keymaps()
+    vim.keymap.set('n', '<leader>nd', function()
+        require('noice').cmd 'dismiss'
+    end, { desc = '[N]otification [D]ismiss' })
+end
 
 return {
     'folke/noice.nvim',
     event = 'VeryLazy',
+
+    keys = keymaps(),
     config = function(_, opts)
         require('noice').setup(opts)
 
@@ -22,8 +26,6 @@ return {
             ),
             callback = set_noice_hls,
         })
-
-        keymaps()
     end,
 
     opts = {
