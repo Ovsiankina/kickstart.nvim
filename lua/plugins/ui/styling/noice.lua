@@ -29,6 +29,22 @@ return {
     end,
 
     opts = {
+        -- Enable messages UI to capture all message events (errors, warnings, info)
+        messages = {
+            enabled = true,
+            view = 'notify_popup',
+            view_error = 'notify_popup',
+            view_warn = 'notify_popup',
+            view_history = 'messages',
+            view_search = 'virtualtext',
+        },
+
+        -- Route vim.notify calls through Noice instead of nvim-notify
+        notify = {
+            enabled = true,
+            view = 'notify_popup',
+        },
+
         lsp = {
             -- override markdown rendering so that **cmp** and other plugins use **Treesitter**
             -- override = {

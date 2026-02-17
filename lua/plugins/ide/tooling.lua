@@ -14,14 +14,32 @@ local M = {}
 M.mason_packages = {
     -- See `:help lspconfig-all` for a list of all the pre-configured LSPs
     lsp = {
-        clangd = {},                          -- C/C++
-        rust_analyzer = {},                   -- rust
-        gopls = {},                           -- Go
-        pyright = {},                         -- python
-        lemminx = {},                         -- XML
+        clangd = {}, -- C/C++
+        rust_analyzer = {}, -- rust
+        gopls = {}, -- Go
+        pyright = {}, -- python
+        lemminx = {}, -- XML
         docker_compose_language_service = {}, -- Docker Compose
-        dockerls = {},                        -- Dockerfile
-        hyprls = {},                          -- Hyprland .conf files
+        dockerls = {}, -- Dockerfile
+        hyprls = {}, -- Hyprland .conf files
+        ts_ls = {
+            single_file_support = true,
+            -- init_options = {
+            --     preferences = {
+            --         includeCompletionsForModuleExports = true,
+            --     },
+            -- },
+            -- settings = {
+            --     javascript = {
+            --         inlayHints = { enabled = true },
+            --     },
+            --     implicitProjectConfiguration = {
+            --         target = 'ES2022',
+            --         -- This is the key setting for standalone files:
+            --         checkJs = false,
+            --     },
+            -- },
+        },
         lua_ls = {
             -- cmd = { 'echo', 'hello world' },
             -- filetypes = { ... },
@@ -115,11 +133,11 @@ M.mason_packages = {
 
     formatters = {
         stylua = {},
-        markdownlint = {},     -- Markdown
+        markdownlint = {}, -- Markdown
         -- isort = {}, -- Python
-        black = {},            -- Python
+        black = {}, -- Python
         -- prettierd = {}, -- Angular, CSS, HTML, JSON, JSX, JS, LESS, Markdown, SCSS, TS, Vue, YAML
-        shfmt = {},            -- bash, sh, zsh
+        shfmt = {}, -- bash, sh, zsh
         ['clang-format'] = {}, -- C/C++
     },
 
@@ -142,6 +160,11 @@ M.excluded_packages = {
 }
 
 M.linters_by_ft = function(lint)
+    -- Disable default linters that require tools we don't have installed
+    lint.linters_by_ft['text'] = nil -- Disables vale for .txt files
+    lint.linters_by_ft['rst'] = nil -- Disables vale for .rst files
+
+    -- Use markdownlint instead of default vale for markdown
     lint.linters_by_ft['markdown'] = { 'markdownlint' }
 
     -- if langs.rust then
@@ -159,6 +182,8 @@ M.parsers = {
     'rust',
     'diff',
     'html',
+    'javascript',
+    'typescript',
     'lua',
     'luadoc',
     'markdown',
