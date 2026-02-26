@@ -22,6 +22,7 @@ M.mason_packages = {
         docker_compose_language_service = {}, -- Docker Compose
         dockerls = {}, -- Dockerfile
         hyprls = {}, -- Hyprland .conf files
+        html = {},
         ts_ls = {
             single_file_support = true,
             -- init_options = {
