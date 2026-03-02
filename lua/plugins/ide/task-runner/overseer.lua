@@ -1,6 +1,29 @@
+local bindings = {
+    ['?'] = 'ShowHelp',
+    ['g?'] = 'ShowHelp',
+    ['<CR>'] = 'RunAction',
+    ['<C-e>'] = 'Edit',
+    ['o'] = 'Open',
+    ['<C-v>'] = 'OpenVsplit',
+    ['<C-s>'] = 'OpenSplit',
+    ['<C-f>'] = 'OpenFloat',
+    ['<C-q>'] = 'OpenQuickFix',
+    ['p'] = 'TogglePreview',
+    ['+'] = 'IncreaseDetail',
+    ['-'] = 'DecreaseDetail',
+    ['L'] = 'IncreaseAllDetail',
+    ['H'] = 'DecreaseAllDetail',
+    ['['] = 'DecreaseWidth',
+    [']'] = 'IncreaseWidth',
+    ['{'] = 'PrevTask',
+    ['}'] = 'NextTask',
+    ['<j>'] = 'ScrollOutputUp',
+    ['<k>'] = 'ScrollOutputDown',
+    ['q'] = 'Close',
+}
 return {
     'stevearc/overseer.nvim',
-    commit = '6271cab7ccc4ca840faa93f54440ffae3a3918bd',
+    -- commit = '6271cab7ccc4ca840faa93f54440ffae3a3918bd',
     cmd = { 'CompilerOpen', 'CompilerToggleResults', 'CompilerRedo' },
     opts = {
         task_list = {
@@ -8,6 +31,7 @@ return {
             min_height = 25,
             max_height = 25,
             default_detail = 1,
+            bindings = bindings,
         },
     },
 }
