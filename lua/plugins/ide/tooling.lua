@@ -23,6 +23,17 @@ M.mason_packages = {
         dockerls = {}, -- Dockerfile
         hyprls = {}, -- Hyprland .conf files
         html = {},
+        vtsls = {
+            enableMoveToFileCodeAction = true,
+            expose_as_code_action = 'all',
+            autoUseWorkspaceTsdk = true, -- uses YOUR project's TS version
+            experimental = {
+                maxInlayHintLength = 30,
+                completion = {
+                    enableServerSideFuzzyMatch = true,
+                },
+            },
+        },
         ts_ls = {
             single_file_support = true,
             -- init_options = {
@@ -87,19 +98,19 @@ M.mason_packages = {
         ast_grep = {},
         -- NOTE: ltex_extra.nvim provides code actions
         -- but we start the server via mason-lspconfig
-        -- ltex = {
-        --     settings = {
-        --         ltex = {
-        --             language = 'auto',
-        --             diagnosticSeverity = 'information',
-        --             sentenceCacheSize = 2000,
-        --             additionalRules = {
-        --                 enablePickyRules = true,
-        --                 motherTongue = 'fr',
-        --             },
-        --         },
-        --     },
-        -- },
+        ltex = {
+            settings = {
+                ltex = {
+                    language = 'auto',
+                    diagnosticSeverity = 'information',
+                    sentenceCacheSize = 2000,
+                    additionalRules = {
+                        enablePickyRules = true,
+                        motherTongue = 'fr',
+                    },
+                },
+            },
+        },
         -- Backup licence key can be found in password manager
         -- qmlls = {
         --     cmd = {
