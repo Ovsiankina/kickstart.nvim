@@ -47,10 +47,6 @@ M.updater = function()
     ---------------------------------------------------------------------------
     -- Lazy
     ---------------------------------------------------------------------------
-    local function lazy_check()
-        require('lazy.manage.checker').check()
-    end
-
     local function lazy_get_updates()
         local updates = {}
         for _, plugin in ipairs(require('lazy.manage.checker').updated) do
@@ -96,9 +92,6 @@ M.updater = function()
         end)
     end
 
-    -- TODO: Bug - LazyCheck event not firing or checker.updated empty.
-    -- Intent: check for Lazy+Mason updates once per session using /tmp flag,
-    -- notify user if updates available. Currently notification never shows.
     local function check_once_per_session()
         if vim.uv.fs_stat(flag_file) then
             return
@@ -109,24 +102,35 @@ M.updater = function()
             vim.uv.fs_close(fd)
         end
 
-        -- Listen for LazyCheck event (fires when checker completes)
+        -- checker.enabled=true means lazy auto-checks at startup; we just need
+        -- to read the result. Two paths to handle the race vs M.plugins():
+        --   1. LazyCheck fires AFTER we register → autocmd catches it
+        --   2. LazyCheck already fired before we got here → fallback poll at 8s
+        local done = false
+        local function on_checked()
+            if done then
+                return
+            end
+            done = true
+            local lazy_updates = lazy_get_updates()
+            if #lazy_updates > 0 then
+                vim.notify(
+                    #lazy_updates
+                        .. ' plugin update(s) available. Use <leader>Syu to update.',
+                    vim.log.levels.INFO
+                )
+            end
+        end
+
         vim.api.nvim_create_autocmd('User', {
             pattern = 'LazyCheck',
             once = true,
             callback = function()
-                local lazy_updates = lazy_get_updates()
-                if #lazy_updates > 0 then
-                    vim.notify(
-                        #lazy_updates
-                            .. ' plugin update(s) available. Use <leader>Syu to update.',
-                        vim.log.levels.INFO
-                    )
-                end
+                vim.schedule(on_checked)
             end,
         })
 
-        -- Trigger check after startup
-        vim.defer_fn(lazy_check, 1000)
+        vim.defer_fn(on_checked, 8000)
     end
 
     ---------------------------------------------------------------------------
@@ -148,13 +152,13 @@ M.updater = function()
 end
 
 local p = 'plugins.'
-local work = p .. '.workflow.'
-local edit = p .. '.text-editing.'
-local lang = p .. '.languages.'
-local ide = p .. '.ide.'
-local ui = p .. '.ui.'
-local ui_comp = ui .. '.components.'
-local spe = p .. '.special.'
+local work = p .. 'workflow.'
+local edit = p .. 'text-editing.'
+local lang = p .. 'languages.'
+local ide = p .. 'ide.'
+local ui = p .. 'ui.'
+local ui_comp = ui .. 'components.'
+local spe = p .. 'special.'
 M.imports = {
     -- [[ Grouped plugins ]]
 
