@@ -114,7 +114,7 @@ return {
                     style = 'none',
                     padding = { 1, 2 },
                 },
-                timeout = 1000, -- 1.5s (default is 3000)
+                timeout = 3000, -- 1.5s (default is 3000)
             },
         },
 
