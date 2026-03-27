@@ -1,14 +1,14 @@
 local keymaps = {
-    -- {
-    --     '<leader>co',
-    --     '<Cmd>CompilerOpen<CR>',
-    --     desc = 'Compiler [o]open',
-    -- },
     {
         '<leader>co',
-        '<Cmd>CompilerToggleResults<CR>',
-        desc = '[co]mpiler result',
+        '<Cmd>CompilerOpen<CR>',
+        desc = 'Compiler [o]open',
     },
+    -- {
+    --     '<leader>co',
+    --     '<Cmd>CompilerToggleResults<CR>',
+    --     desc = '[co]mpiler result',
+    -- },
 }
 
 return {
