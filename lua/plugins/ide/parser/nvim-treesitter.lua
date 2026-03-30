@@ -4,16 +4,16 @@ local tools = require 'plugins.ide.tooling'
 local keymaps = function()
     vim.keymap.set(
         'n',
-        '<leader>ti',
+        '<leader>gi',
         '<cmd>Inspect<cr>',
-        { desc = '[T]reesitter [I]nspect' }
+        { desc = 'Treesitter [I]nspect' }
     )
-    vim.keymap.set(
-        'n',
-        '<leader>tI',
-        '<cmd>InspectTree<cr>',
-        { desc = '[T]reesitter [I]nspect tree' }
-    )
+    -- vim.keymap.set(
+    --     'n',
+    --     '<leader>gI',
+    --     '<cmd>InspectTree<cr>',
+    --     { desc = 'Treesitter [I]nspect tree' }
+    -- )
 end
 
 return { -- Highlight, edit, and navigate code
