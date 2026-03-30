@@ -20,6 +20,7 @@ return {
 
     -- Setup the plugin. This step is not needed with lazy.nvim if opts is set as above.
     opts = {
+        enabled = false,
         hints = {
             ['k%^'] = {
                 message = function()
