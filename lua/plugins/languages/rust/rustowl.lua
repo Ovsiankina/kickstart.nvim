@@ -25,11 +25,12 @@ return {
     ft = 'rust',
     lazy = false, -- This plugin is already lazy
     opts = {
-        client = {
-            on_attach = function(client, buffer)
-                keymaps(client, buffer)
-            end,
-        },
+        enabled = false,
+        -- client = {
+        --     on_attach = function(client, buffer)
+        --         keymaps(client, buffer)
+        --     end,
+        -- },
         highlight_style = 'underline',
         auto_enable = false,
     },
