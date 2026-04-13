@@ -17,18 +17,18 @@ local keymaps = {
         mode = 'n',
         desc = 'Delete [x] Other Buffers',
     },
-    {
-        'H',
-        '<cmd>BufferLineCyclePrev<cr>',
-        mode = 'n',
-        desc = 'Prev Buffer',
-    },
-    {
-        'L',
-        '<cmd>BufferLineCycleNext<cr>',
-        mode = 'n',
-        desc = 'Next Buffer',
-    },
+    -- {
+    --     'H',
+    --     '<cmd>BufferLineCyclePrev<cr>',
+    --     mode = 'n',
+    --     desc = 'Prev Buffer',
+    -- },
+    -- {
+    --     'L',
+    --     '<cmd>BufferLineCycleNext<cr>',
+    --     mode = 'n',
+    --     desc = 'Next Buffer',
+    -- },
 }
 
 local function generate_underline_highlights()
@@ -100,7 +100,7 @@ local function opts(bufferline)
             always_show_bufferline = false,
             auto_toggle_bufferline = true,
             diagnostics_indicator = function(
-                ---@diagnostic disable-next-line: unused-local
+            ---@diagnostic disable-next-line: unused-local
                 count,
                 ---@diagnostic disable-next-line: unused-local
                 level,
