@@ -100,6 +100,10 @@ M.mason_packages = {
         -- NOTE: ltex_extra.nvim provides code actions
         -- but we start the server via mason-lspconfig
         ltex = {
+            cmd = {
+                'sh', '-c',
+                'JAVA_OPTS="-Djdk.xml.totalEntitySizeLimit=0" exec ltex-ls',
+            },
             settings = {
                 ltex = {
                     language = 'auto',
