@@ -70,6 +70,7 @@ return {
                 },
                 position = {
                     col = '50%',
+                    row = '50%',
                 },
                 filter_options = {},
                 win_options = {

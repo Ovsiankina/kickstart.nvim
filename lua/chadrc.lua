@@ -32,19 +32,27 @@ local options = {
                 bold = true,
             },
             ['@constructor'] = { fg = '#79A1F5' },
+            TelescopeNormal = { bg = 'darker_black' },
+            TelescopePromptNormal = { bg = 'black2' },
+            TelescopeResultsNormal = { bg = 'darker_black' },
+            TelescopePreviewNormal = { bg = 'darker_black' },
+            TelescopeBorder = { fg = 'darker_black', bg = 'darker_black' },
+            TelescopePromptBorder = { fg = 'black2', bg = 'black2' },
+            TelescopePromptTitle = { fg = 'black', bg = 'red' },
+            TelescopeResultsTitle = { fg = 'darker_black', bg = 'darker_black' },
+            TelescopePreviewTitle = { fg = 'black', bg = 'green' },
         },
         integrations = {},
         changed_themes = {},
-        -- BUG: transparency set to true fucks with base46 telescope theming
         -- NOTE: terminal is already transparent. It'll just remove bg color
-        transparency = false,
+        transparency = true,
         theme_toggle = { 'tokyonight', 'tokyodark' },
     },
     { import = 'nvchad.blink.lazyspec' },
     ui = {
         cmp = {
             enabled = true,
-            icons_left = false, -- only for non-atom styles!
+            icons_left = false, -- only for nneuronal on-atom styles!
 
             -- default/flat_light/flat_dark/atom/atom_colored
             style = 'atom_colored',
