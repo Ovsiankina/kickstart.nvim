@@ -17,24 +17,29 @@ local keymaps = function()
 end
 
 return { -- Highlight, edit, and navigate code
-    'nvim-treesitter/nvim-treesitter',
+    'neovim-treesitter/nvim-treesitter',
     build = ':TSUpdate',
-    main = 'nvim-treesitter.configs', -- Sets main module to use for opts
+    dependencies = { 'neovim-treesitter/treesitter-parser-registry' },
     -- [[ Configure Treesitter ]] See `:help nvim-treesitter`
     keys = keymaps(),
-    opts = {
-        ensure_installed = tools.parsers,
-        -- Autoinstall languages that are not installed
-        auto_install = true,
-        highlight = {
-            enable = true,
-            -- Some languages depend on vim's regex highlighting system (such as Ruby) for indent rules.
-            --  If you are experiencing weird indenting issues, add the language to
-            --  the list of additional_vim_regex_highlighting and disabled languages for indent.
-            additional_vim_regex_highlighting = { 'ruby' },
-        },
-        indent = { enable = true, disable = { 'ruby' } },
-    },
+    config = function()
+        -- New fork: setup only accepts install_dir / local_parsers
+        require('nvim-treesitter').setup()
+
+        -- Install parsers (equivalent to old ensure_installed)
+        require('nvim-treesitter.install').install(tools.parsers)
+
+        -- Highlighting and indent are now handled by built-in nvim treesitter.
+        -- Enable highlight for all filetypes that have a parser.
+        vim.api.nvim_create_autocmd('FileType', {
+            callback = function(ev)
+                local ok = pcall(vim.treesitter.start, ev.buf)
+                if not ok then return end
+                -- Use treesitter-based indent when available
+                vim.bo[ev.buf].indentexpr = "v:lua.require('nvim-treesitter').indentexpr()"
+            end,
+        })
+    end,
     -- TODO: There are additional nvim-treesitter modules that you can use to interact
     -- with nvim-treesitter. You should go explore a few and see what interests you:
     --    - Incremental selection: Included, see `:help nvim-treesitter-incremental-selection-mod`
