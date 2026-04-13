@@ -7,8 +7,6 @@
 --
 -- All rights reserved.
 
--- TODO: use vim api to set keymaps so that descriptions can be added
-
 --[[
     Old text                    Command         New text
 --------------------------------------------------------------------------------
@@ -21,18 +19,79 @@
     <b>or tag* types</b>        csth1<CR>       <h1>or tag types</h1>
     delete(functi*on calls)     dsf             function calls
 --]]
+
+-- Disable default mappings (set via <Plug> below instead)
+vim.g.nvim_surround_no_insert_mappings = true
+vim.g.nvim_surround_no_normal_mappings = true
+vim.g.nvim_surround_no_visual_mappings = true
+
 local keymaps = {
-    insert = '<C-g>s',
-    insert_line = '<C-g>S',
-    normal = 'ys',
-    normal_cur = 'yss',
-    normal_line = 'yS',
-    normal_cur_line = 'ySS',
-    visual = 'S',
-    visual_line = 'gS',
-    delete = 'ds',
-    change = 'cs',
-    change_line = 'cS',
+    {
+        mode = 'i',
+        lhs = '<C-g>s',
+        rhs = '<Plug>(nvim-surround-insert)',
+        desc = 'Add surrounding (insert)',
+    },
+    {
+        mode = 'i',
+        lhs = '<C-g>S',
+        rhs = '<Plug>(nvim-surround-insert-line)',
+        desc = 'Add surrounding line (insert)',
+    },
+    {
+        mode = 'n',
+        lhs = 'ys',
+        rhs = '<Plug>(nvim-surround-normal)',
+        desc = 'Add surrounding around motion',
+    },
+    {
+        mode = 'n',
+        lhs = 'yss',
+        rhs = '<Plug>(nvim-surround-normal-cur)',
+        desc = 'Add surrounding around current line',
+    },
+    {
+        mode = 'n',
+        lhs = 'yS',
+        rhs = '<Plug>(nvim-surround-normal-line)',
+        desc = 'Add surrounding around motion (line)',
+    },
+    {
+        mode = 'n',
+        lhs = 'ySS',
+        rhs = '<Plug>(nvim-surround-normal-cur-line)',
+        desc = 'Add surrounding around current line (line)',
+    },
+    {
+        mode = 'x',
+        lhs = 'S',
+        rhs = '<Plug>(nvim-surround-visual)',
+        desc = 'Add surrounding (visual)',
+    },
+    {
+        mode = 'x',
+        lhs = 'gS',
+        rhs = '<Plug>(nvim-surround-visual-line)',
+        desc = 'Add surrounding (visual line)',
+    },
+    {
+        mode = 'n',
+        lhs = 'ds',
+        rhs = '<Plug>(nvim-surround-delete)',
+        desc = 'Delete surrounding pair',
+    },
+    {
+        mode = 'n',
+        lhs = 'cs',
+        rhs = '<Plug>(nvim-surround-change)',
+        desc = 'Change surrounding pair',
+    },
+    {
+        mode = 'n',
+        lhs = 'cS',
+        rhs = '<Plug>(nvim-surround-change-line)',
+        desc = 'Change surrounding pair (line)',
+    },
 }
 
 return {
@@ -40,9 +99,10 @@ return {
     version = '*', -- Use for stability; omit to use `main` branch for the latest features
     event = 'VeryLazy',
     config = function()
-        require('nvim-surround').setup {
-            -- Configuration here, or leave empty to use defaults
-            keymaps = keymaps,
-        }
+        require('nvim-surround').setup {}
+
+        for _, map in ipairs(keymaps) do
+            vim.keymap.set(map.mode, map.lhs, map.rhs, { desc = map.desc })
+        end
     end,
 }
