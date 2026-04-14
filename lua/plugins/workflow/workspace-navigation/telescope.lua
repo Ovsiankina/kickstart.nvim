@@ -150,7 +150,11 @@ return { -- Fuzzy Finder (files, lsp, etc)
             defaults = {
                 mappings = mappings,
             },
-            -- pickers = {}
+            pickers = {
+                find_files = {
+                    hidden = true,
+                },
+            },
             extensions = {
                 ['ui-select'] = {
                     require('telescope.themes').get_dropdown(),
