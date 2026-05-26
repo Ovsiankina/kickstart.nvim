@@ -23,6 +23,9 @@ return { -- Highlight, edit, and navigate code
     -- [[ Configure Treesitter ]] See `:help nvim-treesitter`
     keys = keymaps(),
     config = function()
+        -- Fixes JS/TS syntax colorization: makes shared highlight rules visible to Neovim
+        vim.opt.runtimepath:append(vim.fn.stdpath 'data' .. '/lazy/nvim-treesitter/runtime')
+
         -- New fork: setup only accepts install_dir / local_parsers
         require('nvim-treesitter').setup()
 

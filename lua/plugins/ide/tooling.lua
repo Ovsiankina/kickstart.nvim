@@ -35,24 +35,24 @@ M.mason_packages = {
                 },
             },
         },
-        ts_ls = {
-            single_file_support = true,
-            -- init_options = {
-            --     preferences = {
-            --         includeCompletionsForModuleExports = true,
-            --     },
-            -- },
-            -- settings = {
-            --     javascript = {
-            --         inlayHints = { enabled = true },
-            --     },
-            --     implicitProjectConfiguration = {
-            --         target = 'ES2022',
-            --         -- This is the key setting for standalone files:
-            --         checkJs = false,
-            --     },
-            -- },
-        },
+        -- ts_ls = {
+        --     single_file_support = true,
+        --     -- init_options = {
+        --     --     preferences = {
+        --     --         includeCompletionsForModuleExports = true,
+        --     --     },
+        --     -- },
+        --     -- settings = {
+        --     --     javascript = {
+        --     --         inlayHints = { enabled = true },
+        --     --     },
+        --     --     implicitProjectConfiguration = {
+        --     --         target = 'ES2022',
+        --     --         -- This is the key setting for standalone files:
+        --     --         checkJs = false,
+        --     --     },
+        --     -- },
+        -- },
         lua_ls = {
             -- cmd = { 'echo', 'hello world' },
             -- filetypes = { ... },
