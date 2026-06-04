@@ -1,4 +1,90 @@
 -- Highlight todo, notes, etc in comments
+
+-- TEST BLOCK — visual verification of all keywords
+-- TODO: uppercase plain
+-- TODO(non-blocking): uppercase with decorator
+-- todo: lowercase plain
+-- todo(non-blocking): lowercase with decorator
+--
+-- CHORE: uppercase plain
+-- CHORE(non-blocking): uppercase with decorator
+-- chore: lowercase plain
+-- chore(non-blocking): lowercase with decorator
+--
+-- ISSUE: uppercase plain
+-- ISSUE(blocking): uppercase with decorator
+-- issue: lowercase plain
+-- issue(blocking): lowercase with decorator
+--
+-- QUESTION: uppercase plain
+-- QUESTION(if-minor): uppercase with decorator
+-- question: lowercase plain
+-- question(if-minor): lowercase with decorator
+--
+-- NOTE: uppercase plain
+-- NOTE(non-blocking): uppercase with decorator
+-- note: lowercase plain
+-- note(non-blocking): lowercase with decorator
+--
+-- THOUGHT: uppercase plain
+-- THOUGHT(non-blocking): uppercase with decorator
+-- thought: lowercase plain
+-- thought(non-blocking): lowercase with decorator
+--
+-- INFO: uppercase plain
+-- INFO(non-blocking): uppercase with decorator
+-- info: lowercase plain
+-- info(non-blocking): lowercase with decorator
+--
+-- DOC: uppercase plain
+-- DOC(non-blocking): uppercase with decorator
+-- doc: lowercase plain
+-- doc(non-blocking): lowercase with decorator
+--
+-- PRAISE: uppercase plain
+-- PRAISE(non-blocking): uppercase with decorator
+-- praise: lowercase plain
+-- praise(non-blocking): lowercase with decorator
+--
+-- SUGGESTION: uppercase plain
+-- SUGGESTION(non-blocking): uppercase with decorator
+-- suggestion: lowercase plain
+-- suggestion(non-blocking): lowercase with decorator
+--
+-- NITPICK: uppercase plain
+-- NITPICK(non-blocking): uppercase with decorator
+-- nitpick: lowercase plain
+-- nitpick(non-blocking): lowercase with decorator
+--
+-- QUIBBLE: uppercase plain
+-- QUIBBLE(if-minor): uppercase with decorator
+-- quibble: lowercase plain
+-- quibble(if-minor): lowercase with decorator
+--
+-- POLISH: uppercase plain
+-- POLISH(non-blocking): uppercase with decorator
+-- polish: lowercase plain
+-- polish(non-blocking): lowercase with decorator
+--
+-- TYPO: uppercase plain
+-- TYPO(non-blocking): uppercase with decorator
+-- typo: lowercase plain
+-- typo(non-blocking): lowercase with decorator
+--
+-- BLOCKING: uppercase plain
+-- BLOCKING(blocking): uppercase with decorator
+-- blocking: lowercase plain
+-- blocking(blocking): lowercase with decorator
+--
+-- NON-BLOCKING: uppercase plain
+-- NON-BLOCKING(non-blocking): uppercase with decorator
+-- non-blocking: lowercase plain
+-- non-blocking(non-blocking): lowercase with decorator
+--
+-- IF-MINOR: uppercase plain
+-- IF-MINOR(if-minor): uppercase with decorator
+-- if-minor: lowercase plain
+-- if-minor(if-minor): lowercase with decorator
 local keymaps = function()
     vim.keymap.set(
         'n',
@@ -30,43 +116,46 @@ return {
             pattern = [[\b(KEYWORDS)\b\s*(\([^)]*\))?\s*:]], -- ripgrep regex
         },
 
-        -- TODO: add icons and the other keywords + i dont like TODO to be in
-        -- green. It's too hard to read near strings that are also the same
-        -- green
         keywords = {
             TODO = {
                 color = 'info',
-                alt = {
-                    'TODO',
-                    'CHORE',
-                    'TYPO',
-                    'todo',
-                    'chore',
-                    'typo',
-                },
+                alt = { 'todo', 'CHORE', 'chore' },
             },
-            -- NOTE:
+            ISSUE = {
+                color = 'error',
+                alt = { 'issue' },
+            },
+            QUESTION = {
+                color = 'warning',
+                alt = { 'question' },
+            },
             NOTE = {
-                -- icon = icons.note,
                 color = 'hint',
-                alt = {
-                    'DOC',
-                    'doc',
-                    'INFO',
-                    'PRAISE',
-                    'NITPICK',
-                    'SUGGESTION',
-                    'QUESTION',
-                    'THOUGHT',
-                    'NOTE',
-                    'info',
-                    'praise',
-                    'nitpick',
-                    'suggestion',
-                    'question',
-                    'thought',
-                    'note',
-                },
+                alt = { 'note', 'THOUGHT', 'thought', 'INFO', 'info', 'DOC', 'doc' },
+            },
+            PRAISE = {
+                color = 'hint',
+                alt = { 'praise' },
+            },
+            SUGGESTION = {
+                color = 'warning',
+                alt = { 'suggestion', 'NITPICK', 'nitpick', 'QUIBBLE', 'quibble', 'POLISH', 'polish' },
+            },
+            TYPO = {
+                color = 'warning',
+                alt = { 'typo' },
+            },
+            BLOCKING = {
+                color = 'error',
+                alt = { 'blocking' },
+            },
+            ['NON-BLOCKING'] = {
+                color = 'hint',
+                alt = { 'non-blocking' },
+            },
+            ['IF-MINOR'] = {
+                color = 'hint',
+                alt = { 'if-minor' },
             },
         },
     },
