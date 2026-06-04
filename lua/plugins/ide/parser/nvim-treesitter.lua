@@ -23,6 +23,10 @@ return { -- Highlight, edit, and navigate code
     -- [[ Configure Treesitter ]] See `:help nvim-treesitter`
     keys = keymaps(),
     config = function()
+        -- Filetype detection for .ron (RON — Rusty Object Notation)
+        -- Neovim has no built-in ft for .ron; add it so treesitter can attach.
+        vim.filetype.add { extension = { ron = 'ron' } }
+
         -- Fixes JS/TS syntax colorization: makes shared highlight rules visible to Neovim
         vim.opt.runtimepath:append(vim.fn.stdpath 'data' .. '/lazy/nvim-treesitter/runtime')
 

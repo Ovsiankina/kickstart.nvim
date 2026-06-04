@@ -170,6 +170,23 @@ M.mason_packages = {
     },
 }
 
+-- LSP servers NOT managed by mason (installed externally via system package manager / cargo / etc.)
+-- These are still registered + auto-enabled via vim.lsp.config/enable in mason.lua
+M.manual_lsp = {
+    ron_lsp = {
+        cmd = { 'ron-lsp' },
+        filetypes = { 'ron' },
+        root_dir = function(bufnr, on_dir)
+            local util = require 'lspconfig.util'
+            local fname = vim.api.nvim_buf_get_name(bufnr)
+            local root = util.root_pattern('Cargo.toml', '.git')(fname)
+                or vim.fn.getcwd()
+            on_dir(root)
+        end,
+        settings = {},
+    },
+}
+
 -- NOTE: Exclude servers that are already called by other plugins
 -- This prevents duplicates servers
 -- https://vi.stackexchange.com/questions/46856/neovim-duplicate-lsp-clients-attached-to-the-buffer
@@ -210,6 +227,7 @@ M.parsers = {
     'vim',
     'vimdoc',
     'regex',
+    'ron',
 }
 
 return M

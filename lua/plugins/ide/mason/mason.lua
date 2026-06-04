@@ -66,5 +66,14 @@ return {
                 exclude = excluded,
             },
         }
+
+        ---------------------------------------------------------------------------
+        -- Externally-installed LSPs (not mason-managed): register + enable
+        ---------------------------------------------------------------------------
+        local manual = tools.manual_lsp or {}
+        register_lsp_server_config(manual)
+        for name, _ in pairs(manual) do
+            vim.lsp.enable(name)
+        end
     end,
 }
