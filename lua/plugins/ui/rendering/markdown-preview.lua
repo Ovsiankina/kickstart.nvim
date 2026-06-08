@@ -7,14 +7,10 @@
 --
 -- All rights reserved.
 
-local keymaps = {
-    {
-        '<leader>mp',
-        '<cmd>MarkdownPreviewToggle<CR>',
-        mode = 'n',
-        desc = 'Markdown [p]review',
-    },
-}
+-- NOTE: The <leader>mp keymap was moved to after/ftplugin/markdown.lua so it
+-- is buffer-local to markdown buffers only (lazy's `keys` spec registered it
+-- globally, leaking onto every buffer, e.g. Strudel .str files). The plugin is
+-- still lazy-loaded on its commands (cmd) and on the markdown filetype (ft).
 
 return {
     'iamcco/markdown-preview.nvim',
@@ -29,5 +25,4 @@ return {
         vim.g.mkdp_browser = 'zen-browser'
     end,
     ft = { 'markdown' },
-    keys = keymaps,
 }

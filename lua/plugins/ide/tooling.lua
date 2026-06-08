@@ -34,6 +34,28 @@ M.mason_packages = {
                     enableServerSideFuzzyMatch = true,
                 },
             },
+            -- Strudel: pin .str/.std buffers AND the strudel-types typedef to one
+            -- fixed project root so the ambient globals resolve. Normal JS/TS
+            -- projects keep their usual root detection. See strudel-types.nvim.
+            root_dir = function(bufnr, on_dir)
+                local ok, st = pcall(require, 'strudel-types')
+                if ok and st.is_strudel_root(bufnr) then
+                    on_dir(st.types_dir())
+                    return
+                end
+                local found = vim.fs.root(bufnr, {
+                    'tsconfig.json',
+                    'jsconfig.json',
+                    'package.json',
+                    '.git',
+                })
+                if found then
+                    on_dir(found)
+                else
+                    local name = vim.api.nvim_buf_get_name(bufnr)
+                    on_dir(name ~= '' and vim.fs.dirname(name) or nil)
+                end
+            end,
         },
         -- ts_ls = {
         --     single_file_support = true,
@@ -192,6 +214,7 @@ M.manual_lsp = {
 -- https://vi.stackexchange.com/questions/46856/neovim-duplicate-lsp-clients-attached-to-the-buffer
 M.excluded_packages = {
     'rust_analyzer', -- Already called by rustaceanvim
+    'ts_ls', -- Use vtsls only; mason auto-enables the installed ts_ls otherwise -> duplicate clients
 }
 
 M.linters_by_ft = function(lint)
