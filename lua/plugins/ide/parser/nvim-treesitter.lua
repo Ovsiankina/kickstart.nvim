@@ -18,6 +18,10 @@ end
 
 return { -- Highlight, edit, and navigate code
     'neovim-treesitter/nvim-treesitter',
+    -- The new rewrite (setup()/install() API used below) lives on `main`.
+    -- Without this pin lazy pulls the now-archived `master` branch (old API),
+    -- whose `nvim-treesitter.install` has no `.install` -> config crash.
+    branch = 'main',
     build = ':TSUpdate',
     dependencies = { 'neovim-treesitter/treesitter-parser-registry' },
     -- [[ Configure Treesitter ]] See `:help nvim-treesitter`
