@@ -32,6 +32,7 @@ require('settings.vim').global()
 require('settings.vim').options()
 require('settings.vim').keymaps()
 require('settings.vim').autocommand()
+require('settings.vim').deprecation_notices()
 
 -- Load base46 cache (must be called before lazy setup)
 vim.g.base46_cache = vim.fn.stdpath 'data' .. '/base46_cache/'

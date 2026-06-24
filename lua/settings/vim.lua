@@ -313,4 +313,27 @@ M.autocommand = function()
     -- })
 end
 
+M.deprecation_notices = function()
+    -- Neovim emits deprecation warnings for its OWN features (e.g.
+    -- `vim.lsp.get_buffers_by_client_id`) via `vim._truncated_echo_once` ->
+    -- `nvim_echo`, which bypasses `vim.notify` entirely. Noice only wraps
+    -- `vim.notify`, so these never reach it -- and the upstream one-shot latch
+    -- (only the FIRST deprecation per session is ever echoed) means a missed
+    -- one never reappears. Re-route them through `vim.notify` so Noice shows
+    -- and dismisses them like any other notification, deduped per message.
+    -- See `:h deprecated` and runtime/lua/vim/_core/editor.lua.
+    local seen = {}
+    function vim._truncated_echo_once(msg)
+        if seen[msg] then
+            return false
+        end
+        seen[msg] = true
+        -- Deprecations can fire from fast events (e.g. LSP handlers), so defer.
+        vim.schedule(function()
+            vim.notify(msg, vim.log.levels.WARN)
+        end)
+        return true
+    end
+end
+
 return M
