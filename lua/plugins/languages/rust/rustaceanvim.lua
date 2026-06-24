@@ -5,7 +5,7 @@ return {
         -- DAP server: codelldb OR lldb-dap
     },
 
-    version = '^6', -- Recommended
+    version = '^8', -- pin to a major; v7+ replaced the deprecated vim.lsp.get_buffers_by_client_id() call
     lazy = false, -- This plugin is already lazy
     config = function()
         vim.g.rustaceanvim = {
