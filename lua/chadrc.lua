@@ -11,7 +11,9 @@ local options = {
 
     base46 = {
         enabled = true,
-        theme = 'tokyodark', -- default theme
+        -- monochrome.nvim port. two flavors (lua/themes/): `venommono` = + venom
+        -- red accent, `puremono` = pure no-accent. toggle below switches them.
+        theme = 'venommono',
         hl_add = {
             LineNrBelow = {
                 fg = '#a9b1d6', -- orange (hex code)
@@ -31,7 +33,8 @@ local options = {
                 fg = '#FFA500', -- same or brighter orange
                 bold = true,
             },
-            ['@constructor'] = { fg = '#79A1F5' },
+            -- NOTE: red accents now live in the `venommono` theme itself
+            -- (lua/themes/venommono.lua), so they don't bleed into `monochrome`.
             TelescopeNormal = { bg = 'darker_black' },
             TelescopePromptNormal = { bg = 'black2' },
             TelescopeResultsNormal = { bg = 'darker_black' },
@@ -45,8 +48,8 @@ local options = {
         integrations = {},
         changed_themes = {},
         -- NOTE: terminal is already transparent. It'll just remove bg color
-        transparency = true,
-        theme_toggle = { 'tokyonight', 'tokyodark' },
+        transparency = false,
+        theme_toggle = { 'venommono', 'puremono' }, -- toggle red <-> pure
     },
     { import = 'nvchad.blink.lazyspec' },
     ui = {

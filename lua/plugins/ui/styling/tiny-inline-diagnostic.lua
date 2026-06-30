@@ -7,6 +7,15 @@
 --
 -- All rights reserved.
 
+local function keymaps()
+    vim.keymap.set(
+        'n',
+        '<leader>ti',
+        '<cmd>TinyInlineDiag toggle<cr>',
+        { desc = 'Toggle diagnostics' }
+    )
+end
+
 local opts = {
     -- https://github.com/rachartier/tiny-inline-diagnostic.nvim?tab=readme-ov-file#presets
     preset = 'powerline',
@@ -19,11 +28,11 @@ local opts = {
     },
     overflow = {
         mode = 'wrap', -- "wrap": split into lines, "none": no truncation, "oneline": keep single line
-        padding = 0,   -- Extra characters to trigger wrapping earlier
+        padding = 0, -- Extra characters to trigger wrapping earlier
     },
     break_line = {
         enabled = true, -- Enable automatic line breaking
-        after = 30,     -- Number of characters before inserting a line break
+        after = 30, -- Number of characters before inserting a line break
     },
     -- signs = {
     --     left = '',
@@ -43,6 +52,8 @@ return {
     'rachartier/tiny-inline-diagnostic.nvim',
     event = 'VeryLazy',
     priority = 1000,
+
+    keys = keymaps(),
     config = function()
         require('tiny-inline-diagnostic').setup(opts)
         vim.diagnostic.config { virtual_text = false } -- Disable Neovim's default virtual text diagnostics

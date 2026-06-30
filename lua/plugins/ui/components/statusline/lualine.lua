@@ -1,18 +1,30 @@
 local function style()
     -- Color table for highlights
     -- stylua: ignore
+    -- Synced with the venommono theme (lua/themes/venommono.lua, palette in
+    -- lua/lib/monochrome_base.lua): monochrome gray base + the single venom red
+    -- accent. The ONLY exception is the neovim-mode colors below -- those stay
+    -- hue-distinct so the mode is glanceable, but their saturation is pulled up
+    -- to match the venom red (#fc302e ~ 97% S / 58% L) instead of the old
+    -- washed-out pastels that fought the monochrome code.
     local colors = {
-        bg       = '#202328',
-        fg       = '#bbc2cf',
-        yellow   = '#ECBE7B',
-        cyan     = '#008080',
-        darkblue = '#081633',
-        green    = '#98be65',
-        orange   = '#FF8800',
-        violet   = '#a9a1e1',
-        magenta  = '#c678dd',
-        blue     = '#51afef',
-        red      = '#ec5f67',
+        -- venommono base
+        bg       = '#0b0b0b', -- statusline_bg
+        fg       = '#d4d4d4', -- gray9 (soft white text)
+        accent   = '#fc302e', -- the one venom red
+        gray5    = '#747474',
+        gray6    = '#8b8b8b',
+        gray7    = '#a3a3a3',
+        gray8    = '#bbbbbb',
+
+        -- neovim MODE colors (the deliberate exception -- kept vivid)
+        red      = '#fc302e', -- = venom red
+        green    = '#2cfc2c',
+        yellow   = '#fceb2c',
+        orange   = '#fc942c',
+        violet   = '#942cfc',
+        cyan     = '#2cfcfc',
+        blue     = '#2c94fc',
     }
 
     local conditions = {
@@ -81,7 +93,7 @@ local function style()
         function()
             return '▊'
         end,
-        color = { fg = colors.blue }, -- Sets highlighting of component
+        color = { fg = colors.accent }, -- Sets highlighting of component
         padding = { left = 0, right = 1 }, -- We don't need space before this
     }
 
@@ -152,9 +164,9 @@ local function style()
         -- Is it me or the symbol for modified is really weird
         symbols = { added = ' ', modified = '󰝤 ', removed = ' ' },
         diff_color = {
-            added = { fg = colors.green },
-            modified = { fg = colors.orange },
-            removed = { fg = colors.red },
+            added = { fg = colors.gray7 },
+            modified = { fg = colors.gray8 },
+            removed = { fg = colors.accent },
         },
         cond = conditions.hide_in_width,
     }
@@ -162,7 +174,7 @@ local function style()
     ins_left {
         require('noice').api.statusline.mode.get,
         cond = require('noice').api.statusline.mode.has,
-        color = { fg = '#ff9e64' },
+        color = { fg = colors.orange },
     }
 
     ins_left {
@@ -170,9 +182,9 @@ local function style()
         sources = { 'nvim_diagnostic' },
         symbols = { error = ' ', warn = ' ', info = ' ' },
         diagnostics_color = {
-            error = { fg = colors.red },
-            warn = { fg = colors.yellow },
-            info = { fg = colors.cyan },
+            error = { fg = colors.red }, -- venom red (= accent)
+            warn = { fg = colors.gray8 },
+            info = { fg = colors.gray6 },
         },
     }
 
@@ -223,7 +235,7 @@ local function style()
             end
             return msg
         end,
-        icon = '  ',
+        icon = ' ',
         color = {
             fg = colors.fg --[[ gui = 'bold' ]],
         },
@@ -264,7 +276,7 @@ local function style()
         function()
             return '▊'
         end,
-        color = { fg = colors.blue },
+        color = { fg = colors.accent },
         padding = { left = 1 },
     }
 
