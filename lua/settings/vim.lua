@@ -219,6 +219,26 @@ M.autocommand = function()
     --          │                   Custom Autocommands                   │
     --          ╰─────────────────────────────────────────────────────────╯
 
+    -- :LspInfo belonged to the OLD nvim-lspconfig API. The new vim.lsp API uses
+    -- :checkhealth vim.lsp. nvim-lspconfig still aliases :LspInfo, but I keep
+    -- reaching for it out of habit -- so override it on VimEnter (after
+    -- lspconfig has defined its own) to run the healthcheck AND nudge me toward
+    -- the new command so I stop mixing up the two APIs.
+    autocmd('VimEnter', {
+        desc = 'Redirect :LspInfo -> :checkhealth vim.lsp with a reminder',
+        group = augroup('lspinfo-redirect', { clear = true }),
+        callback = function()
+            vim.api.nvim_create_user_command('LspInfo', function()
+                vim.notify(
+                    ':LspInfo is the old API -- use :checkhealth vim.lsp from now on.',
+                    vim.log.levels.WARN,
+                    { title = 'LSP' }
+                )
+                vim.cmd 'checkhealth vim.lsp'
+            end, { desc = 'Deprecated alias -> :checkhealth vim.lsp' })
+        end,
+    })
+
     local blacklist = {
         markdown = true, -- add more filetypes later: blacklist["foo"] = true
         md = true,

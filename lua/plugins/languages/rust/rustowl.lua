@@ -1,40 +1,33 @@
--- File name: rustowl.lua
--- Author: ovsiankina
--- Date created: 2025-12-01 19:30:37
--- Date modified: 2025-12-01 19:33:11
--- ----------------------------------
--- Copyright (c) 2025 Ovsiankina <ovsiankina@proton.me>
---
--- All rights reserved.
-
 ---@diagnostic disable-next-line: unused-local
 local keymaps = function(client, buffer)
     vim.keymap.set('n', '<leader>to', function()
-        require('rustowl').toggle(buffer)
+        local rustowl = require 'rustowl'
+        rustowl.toggle(buffer)
         vim.notify(
-            'RustOwl: ' .. tostring(require('rustowl').is_enabled()),
+            'RustOwl ' .. (rustowl.is_enabled() and 'enabled' or 'disabled'),
             vim.log.levels.INFO
         )
     end, { buffer = buffer, desc = 'Toggle Rust[o]wl highlight' })
+
+    vim.keymap.set('n', '<leader>oh', function()
+        require('lib.rustowl_hint').show()
+    end, { buffer = buffer, desc = 'RustOwl: explain c[o]lor / [h]int' })
 end
+
+vim.api.nvim_create_autocmd('FileType', {
+    pattern = 'rust',
+    callback = function(ev)
+        keymaps(nil, ev.buf)
+    end,
+})
 
 return {
     'cordx56/rustowl',
-    version = '*', -- Latest stable version
+    version = '*',
     -- build = 'cargo binstall rustowl',
     ft = 'rust',
-    lazy = false, -- This plugin is already lazy
+    enabled = true,
     opts = {
-        enabled = false,
-        -- client = {
-        --     on_attach = function(client, buffer)
-        --         keymaps(client, buffer)
-        --     end,
-        -- },
-        highlight_style = 'underline',
-        auto_enable = false,
+        auto_enable = true,
     },
 }
---
--- -- event = 'VeryLazy', -- Or `LspAttach`
--- -- event = 'LspAttach', -- Or `VeryLazy`

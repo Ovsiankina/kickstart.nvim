@@ -18,7 +18,27 @@ return {
                 end,
                 default_settings = {
                     -- rust-analyzer language server configuration
-                    ['rust-analyzer'] = {},
+                    ['rust-analyzer'] = {
+                        -- Separate target dir so RA's cargo check never fights
+                        -- your terminal `cargo` over the same fingerprints.
+                        cargo = {
+                            targetDir = true, -- -> target/rust-analyzer
+                        },
+                        -- Check only what's needed, not --all-targets/all-features.
+                        check = {
+                            command = 'clippy',
+                            allTargets = false,
+                            workspace = true,
+                        },
+                        -- Don't pre-build the whole workspace on startup.
+                        cachePriming = {
+                            enable = false,
+                        },
+                        -- Skip rebuilding proc-macro/build scripts churn on nav.
+                        procMacro = {
+                            enable = true,
+                        },
+                    },
                 },
             },
             -- DAP configuration

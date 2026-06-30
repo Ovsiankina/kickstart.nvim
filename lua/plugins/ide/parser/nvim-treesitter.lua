@@ -4,7 +4,7 @@ local tools = require 'plugins.ide.tooling'
 local keymaps = function()
     vim.keymap.set(
         'n',
-        '<leader>gi',
+        '<leader>T',
         '<cmd>Inspect<cr>',
         { desc = 'Treesitter [I]nspect' }
     )
@@ -32,7 +32,9 @@ return { -- Highlight, edit, and navigate code
         vim.filetype.add { extension = { ron = 'ron' } }
 
         -- Fixes JS/TS syntax colorization: makes shared highlight rules visible to Neovim
-        vim.opt.runtimepath:append(vim.fn.stdpath 'data' .. '/lazy/nvim-treesitter/runtime')
+        vim.opt.runtimepath:append(
+            vim.fn.stdpath 'data' .. '/lazy/nvim-treesitter/runtime'
+        )
 
         -- New fork: setup only accepts install_dir / local_parsers
         require('nvim-treesitter').setup()
@@ -45,9 +47,12 @@ return { -- Highlight, edit, and navigate code
         vim.api.nvim_create_autocmd('FileType', {
             callback = function(ev)
                 local ok = pcall(vim.treesitter.start, ev.buf)
-                if not ok then return end
+                if not ok then
+                    return
+                end
                 -- Use treesitter-based indent when available
-                vim.bo[ev.buf].indentexpr = "v:lua.require('nvim-treesitter').indentexpr()"
+                vim.bo[ev.buf].indentexpr =
+                    "v:lua.require('nvim-treesitter').indentexpr()"
             end,
         })
     end,
