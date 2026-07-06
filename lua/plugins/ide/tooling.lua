@@ -14,7 +14,19 @@ local M = {}
 M.mason_packages = {
     -- See `:help lspconfig-all` for a list of all the pre-configured LSPs
     lsp = {
-        clangd = {}, -- C/C++
+        clangd = {
+            cmd = {
+                'clangd',
+                '--clang-tidy',
+                '--background-index',
+                '--header-insertion=never',
+            },
+        }, -- C/C++
+        -- Arduino: wraps clangd for .ino sketches. Needs system `arduino-cli`
+        -- (+ ~/.arduino15/arduino-cli.yaml) and a per-project `sketch.yaml`
+        -- with `default_fqbn` (e.g. arduino:avr:uno). Neovim maps *.ino ->
+        -- filetype `arduino` out of the box.
+        arduino_language_server = {}, -- Arduino (.ino), clangd-backed
         asm_lsp = {}, -- ASM
         rust_analyzer = {}, -- rust
         gopls = {}, -- Go
@@ -124,7 +136,8 @@ M.mason_packages = {
         ltex = {
             filetypes = { 'markdown', 'tex' },
             cmd = {
-                'sh', '-c',
+                'sh',
+                '-c',
                 'JAVA_OPTS="-Djdk.xml.totalEntitySizeLimit=0" exec ltex-ls',
             },
             settings = {
@@ -186,9 +199,10 @@ M.mason_packages = {
     },
 
     linters = {
-        -- bacon = {},
+        bacon = {},
         -- luacheck = {},
         markdownlint = {},
+        -- cppcheck removed from mason registry; use system binary (pacman: cppcheck)
     },
 }
 

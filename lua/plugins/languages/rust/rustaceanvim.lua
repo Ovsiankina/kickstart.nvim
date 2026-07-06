@@ -13,6 +13,10 @@ return {
             tools = {},
             -- LSP configuration
             server = {
+                -- Don't auto-attach when disabled for this session.
+                auto_attach = function(bufnr)
+                    return not vim.g.rust_analyzer_disabled
+                end,
                 on_attach = function(client, bufnr)
                     -- you can also put keymaps in here
                 end,
@@ -44,6 +48,21 @@ return {
             -- DAP configuration
             dap = {},
         }
+
+        -- Disable rust-analyzer for the rest of this nvim session.
+        -- Sets the gate flag, then stops any running clients so they
+        -- don't get re-attached on the next rust buffer.
+        vim.api.nvim_create_user_command('RustAnalyzerDisable', function()
+            vim.g.rust_analyzer_disabled = true
+            for _, client in ipairs(vim.lsp.get_clients { name = 'rust-analyzer' }) do
+                client:stop(true)
+            end
+        end, { desc = 'Disable rust-analyzer for this session' })
+
+        vim.api.nvim_create_user_command('RustAnalyzerEnable', function()
+            vim.g.rust_analyzer_disabled = false
+            vim.cmd.edit() -- re-trigger filetype/attach on current buffer
+        end, { desc = 'Re-enable rust-analyzer for this session' })
     end,
 }
 
