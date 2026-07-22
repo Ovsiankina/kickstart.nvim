@@ -28,6 +28,9 @@ end
 M.plugins = function()
     -- [[ Configure and install plugins ]]
     require('lazy').setup(M.imports, {
+        -- Local plugin checkouts I develop on. A spec with `dev = true` loads from
+        -- ~/Documents/nvim-plugins/<name> instead of cloning; :Lazy update skips it.
+        dev = { path = '~/Documents/nvim-plugins', fallback = true },
         ui = {
             -- If you are using a Nerd Font: set icons to an empty table which will use the
             -- default lazy.nvim defined Nerd Font icons, otherwise define a unicode icons table
