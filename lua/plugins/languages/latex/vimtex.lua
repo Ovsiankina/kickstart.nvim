@@ -3,48 +3,130 @@
 -- ----------------------------------
 -- VimTeX: A modern Vim/Neovim filetype plugin for LaTeX
 -- NOTE: <localleader> defaults to '\'. Set maplocalleader before loading if needed.
+-- Dependencies (Arch Linux):
+--   - texlive-basic (pdflatex)
+--   - texlive-binextra (latexmk)
+--   - texlive-bibtexextra (biber, for bibliographies)
+--   - texlive-latexextra (common LaTeX packages)
+--   - zathura, zathura-pdf-mupdf (PDF viewer + SyncTeX)
+--   - texlab (LSP, optional)
 
 local keymaps = function()
     local map = function(mode, lhs, rhs, desc)
-        vim.keymap.set(mode, lhs, rhs, { buffer = true, desc = 'VimTeX: ' .. desc })
+        vim.keymap.set(
+            mode,
+            lhs,
+            rhs,
+            { buffer = true, desc = 'VimTeX: ' .. desc }
+        )
     end
 
     -- ┌─────────────────────────────────────────────────────────────────────────┐
     -- │ COMPILATION & BUILDING                                                  │
     -- └─────────────────────────────────────────────────────────────────────────┘
-    map('n', '<localleader>ll', '<plug>(vimtex-compile)', '[L]atex compi[L]e (toggle)')
-    map('x', '<localleader>lL', '<plug>(vimtex-compile-selected)', '[L]atex compile se[L]ected')
-    map('n', '<localleader>lk', '<plug>(vimtex-stop)', '[L]atex [K]ill compilation')
+    map(
+        'n',
+        '<localleader>ll',
+        '<plug>(vimtex-compile)',
+        '[L]atex compi[L]e (toggle)'
+    )
+    map(
+        'x',
+        '<localleader>lL',
+        '<plug>(vimtex-compile-selected)',
+        '[L]atex compile se[L]ected'
+    )
+    map(
+        'n',
+        '<localleader>lk',
+        '<plug>(vimtex-stop)',
+        '[L]atex [K]ill compilation'
+    )
     map('n', '<localleader>lK', '<plug>(vimtex-stop-all)', '[L]atex [K]ill all')
     map('n', '<localleader>le', '<plug>(vimtex-errors)', '[L]atex [E]rrors')
-    map('n', '<localleader>lo', '<plug>(vimtex-compile-output)', '[L]atex [O]utput')
+    map(
+        'n',
+        '<localleader>lo',
+        '<plug>(vimtex-compile-output)',
+        '[L]atex [O]utput'
+    )
     map('n', '<localleader>lc', '<plug>(vimtex-clean)', '[L]atex [C]lean aux')
-    map('n', '<localleader>lC', '<plug>(vimtex-clean-full)', '[L]atex [C]lean all')
-    map('n', '<localleader>lg', '<plug>(vimtex-status)', '[L]atex status (count words)')
-    map('n', '<localleader>lG', '<plug>(vimtex-status-all)', '[L]atex status all')
+    map(
+        'n',
+        '<localleader>lC',
+        '<plug>(vimtex-clean-full)',
+        '[L]atex [C]lean all'
+    )
+    map(
+        'n',
+        '<localleader>lg',
+        '<plug>(vimtex-status)',
+        '[L]atex status (count words)'
+    )
+    map(
+        'n',
+        '<localleader>lG',
+        '<plug>(vimtex-status-all)',
+        '[L]atex status all'
+    )
 
     -- ┌─────────────────────────────────────────────────────────────────────────┐
     -- │ VIEW & NAVIGATION                                                       │
     -- └─────────────────────────────────────────────────────────────────────────┘
     map('n', '<localleader>lv', '<plug>(vimtex-view)', '[L]atex [V]iew PDF')
-    map('n', '<localleader>lr', '<plug>(vimtex-reverse-search)', '[L]atex [R]everse search')
+    map(
+        'n',
+        '<localleader>lr',
+        '<plug>(vimtex-reverse-search)',
+        '[L]atex [R]everse search'
+    )
     map('n', '<localleader>lt', '<plug>(vimtex-toc-open)', '[L]atex [T]OC open')
-    map('n', '<localleader>lT', '<plug>(vimtex-toc-toggle)', '[L]atex [T]OC toggle')
+    map(
+        'n',
+        '<localleader>lT',
+        '<plug>(vimtex-toc-toggle)',
+        '[L]atex [T]OC toggle'
+    )
 
     -- ┌─────────────────────────────────────────────────────────────────────────┐
     -- │ INFO & STATUS                                                           │
     -- └─────────────────────────────────────────────────────────────────────────┘
     map('n', '<localleader>li', '<plug>(vimtex-info)', '[L]atex [I]nfo')
-    map('n', '<localleader>lI', '<plug>(vimtex-info-full)', '[L]atex [I]nfo full')
-    map('n', '<localleader>lq', '<plug>(vimtex-log)', '[L]atex log ([Q]uickfix)')
-    map('n', '<localleader>lm', '<plug>(vimtex-imaps-list)', '[L]atex insert [M]appings')
-    map('n', '<localleader>la', '<plug>(vimtex-context-menu)', '[L]atex context [A]ction')
+    map(
+        'n',
+        '<localleader>lI',
+        '<plug>(vimtex-info-full)',
+        '[L]atex [I]nfo full'
+    )
+    map(
+        'n',
+        '<localleader>lq',
+        '<plug>(vimtex-log)',
+        '[L]atex log ([Q]uickfix)'
+    )
+    map(
+        'n',
+        '<localleader>lm',
+        '<plug>(vimtex-imaps-list)',
+        '[L]atex insert [M]appings'
+    )
+    map(
+        'n',
+        '<localleader>la',
+        '<plug>(vimtex-context-menu)',
+        '[L]atex context [A]ction'
+    )
 
     -- ┌─────────────────────────────────────────────────────────────────────────┐
     -- │ RELOAD                                                                  │
     -- └─────────────────────────────────────────────────────────────────────────┘
     map('n', '<localleader>lx', '<plug>(vimtex-reload)', '[L]atex reload')
-    map('n', '<localleader>lX', '<plug>(vimtex-reload-state)', '[L]atex reload state')
+    map(
+        'n',
+        '<localleader>lX',
+        '<plug>(vimtex-reload-state)',
+        '[L]atex reload state'
+    )
 
     -- ┌─────────────────────────────────────────────────────────────────────────┐
     -- │ SECTION NAVIGATION                                                      │
@@ -112,27 +194,92 @@ local keymaps = function()
     -- ┌─────────────────────────────────────────────────────────────────────────┐
     -- │ DELETE SURROUNDING                                                      │
     -- └─────────────────────────────────────────────────────────────────────────┘
-    map('n', 'dsc', '<plug>(vimtex-delim-delete)', '[D]elete [S]urround [C]ommand')
-    map('n', 'dse', '<plug>(vimtex-env-delete)', '[D]elete [S]urround [E]nvironment')
-    map('n', 'ds$', '<plug>(vimtex-env-delete-math)', '[D]elete [S]urround math')
-    map('n', 'dsd', '<plug>(vimtex-delim-delete)', '[D]elete [S]urround [D]elimiter')
+    map(
+        'n',
+        'dsc',
+        '<plug>(vimtex-delim-delete)',
+        '[D]elete [S]urround [C]ommand'
+    )
+    map(
+        'n',
+        'dse',
+        '<plug>(vimtex-env-delete)',
+        '[D]elete [S]urround [E]nvironment'
+    )
+    map(
+        'n',
+        'ds$',
+        '<plug>(vimtex-env-delete-math)',
+        '[D]elete [S]urround math'
+    )
+    map(
+        'n',
+        'dsd',
+        '<plug>(vimtex-delim-delete)',
+        '[D]elete [S]urround [D]elimiter'
+    )
 
     -- ┌─────────────────────────────────────────────────────────────────────────┐
     -- │ CHANGE SURROUNDING                                                      │
     -- └─────────────────────────────────────────────────────────────────────────┘
-    map('n', 'csc', '<plug>(vimtex-cmd-change)', '[C]hange [S]urround [C]ommand')
-    map('n', 'cse', '<plug>(vimtex-env-change)', '[C]hange [S]urround [E]nvironment')
-    map('n', 'cs$', '<plug>(vimtex-env-change-math)', '[C]hange [S]urround math')
-    map('n', 'csd', '<plug>(vimtex-delim-change-math)', '[C]hange [S]urround [D]elimiter')
+    map(
+        'n',
+        'csc',
+        '<plug>(vimtex-cmd-change)',
+        '[C]hange [S]urround [C]ommand'
+    )
+    map(
+        'n',
+        'cse',
+        '<plug>(vimtex-env-change)',
+        '[C]hange [S]urround [E]nvironment'
+    )
+    map(
+        'n',
+        'cs$',
+        '<plug>(vimtex-env-change-math)',
+        '[C]hange [S]urround math'
+    )
+    map(
+        'n',
+        'csd',
+        '<plug>(vimtex-delim-change-math)',
+        '[C]hange [S]urround [D]elimiter'
+    )
 
     -- ┌─────────────────────────────────────────────────────────────────────────┐
     -- │ TOGGLE COMMANDS                                                         │
     -- └─────────────────────────────────────────────────────────────────────────┘
-    map('n', 'tsc', '<plug>(vimtex-cmd-toggle-star)', '[T]oggle [S]tarred [C]ommand')
-    map('n', 'tse', '<plug>(vimtex-env-toggle-star)', '[T]oggle [S]tarred [E]nvironment')
-    map('n', 'ts$', '<plug>(vimtex-env-toggle-math)', '[T]oggle math inline/display')
-    map('n', 'tsd', '<plug>(vimtex-delim-toggle-modifier)', '[T]oggle [D]elimiter \\left\\right')
-    map('n', 'tsD', '<plug>(vimtex-delim-toggle-modifier-reverse)', '[T]oggle [D]elimiter reverse')
+    map(
+        'n',
+        'tsc',
+        '<plug>(vimtex-cmd-toggle-star)',
+        '[T]oggle [S]tarred [C]ommand'
+    )
+    map(
+        'n',
+        'tse',
+        '<plug>(vimtex-env-toggle-star)',
+        '[T]oggle [S]tarred [E]nvironment'
+    )
+    map(
+        'n',
+        'ts$',
+        '<plug>(vimtex-env-toggle-math)',
+        '[T]oggle math inline/display'
+    )
+    map(
+        'n',
+        'tsd',
+        '<plug>(vimtex-delim-toggle-modifier)',
+        '[T]oggle [D]elimiter \\left\\right'
+    )
+    map(
+        'n',
+        'tsD',
+        '<plug>(vimtex-delim-toggle-modifier-reverse)',
+        '[T]oggle [D]elimiter reverse'
+    )
     map('n', 'tsf', '<plug>(vimtex-cmd-toggle-frac)', '[T]oggle [F]raction')
     map('x', 'tsf', '<plug>(vimtex-cmd-toggle-frac)', '[T]oggle [F]raction')
 
@@ -151,6 +298,10 @@ return {
         vim.g.vimtex_imaps_enabled = 0
 
         -- Viewer configuration
+        -- Force zathura onto XWayland so xdotool can find its window id
+        -- for forward/inverse search (native Wayland windows are invisible
+        -- to xdotool, causing "no zathura window id found").
+        vim.fn.setenv('GDK_BACKEND', 'x11')
         vim.g.vimtex_view_method = 'zathura'
 
         -- Quickfix settings
@@ -189,6 +340,15 @@ return {
             pattern = { 'tex', 'latex' },
             callback = function()
                 keymaps()
+            end,
+        })
+
+        -- Recompile on every save (zathura auto-reloads the PDF once it
+        -- changes on disk, so this keeps the viewer in sync with :w).
+        vim.api.nvim_create_autocmd('BufWritePost', {
+            pattern = { '*.tex', '*.latex' },
+            callback = function()
+                vim.cmd('silent! VimtexCompileSS')
             end,
         })
     end,
