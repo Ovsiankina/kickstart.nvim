@@ -20,6 +20,7 @@
   "hardtime.nvim": { "branch": "main", "commit": "b4e431934af1fe224a3a801f632c008278cb7628" },
   "harpoon": { "branch": "harpoon2", "commit": "87b1a3506211538f460786c23f98ec63ad9af4e5" },
   "header.nvim": { "branch": "master", "commit": "22f52280839160773fc546572d1aebe55bf1acfa" },
+  "herdr-splits.nvim": { "branch": "main", "commit": "94f30cf4e9ac76ddf185a3acd0977be728fa4106" },
   "image.nvim": { "branch": "master", "commit": "5c6f29a5069e1f7bd5773ce5907454063b0f125d" },
   "inc-rename.nvim": { "branch": "main", "commit": "ddff8bd3eccedf043bd73f5bf89cf90d2d6d8105" },
   "indent-blankline.nvim": { "branch": "master", "commit": "f1e186e44d3b7f9ae918008e2c28ce37c6023d2d" },
