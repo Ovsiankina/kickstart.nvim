@@ -21,7 +21,9 @@ return {
                     -- Only run the linter in buffers that you can modify in order to
                     -- avoid superfluous noise, notably within the handy LSP pop-ups that
                     -- describe the hovered symbol using Markdown.
-                    if vim.bo.modifiable then
+                    -- `vim.b.lint_paused` lets a buffer opt out (see <leader>ml
+                    -- in after/ftplugin/markdown.lua).
+                    if vim.bo.modifiable and not vim.b.lint_paused then
                         lint.try_lint()
                     end
                 end,

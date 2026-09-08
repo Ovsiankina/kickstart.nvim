@@ -61,6 +61,26 @@ vim.keymap.set('n', '<leader>mf', function()
     vim.api.nvim_buf_set_lines(buf, 0, -1, false, new_lines)
 end, { buffer = true, desc = '[M]arkdown [F]ix line length' })
 
+-- <leader>ml : Pause/resume markdownlint for this buffer.
+-- markdownlint runs on BufEnter/BufWritePost/InsertLeave (see
+-- plugins/ide/lint/lint.lua) and can get noisy while just reading. This
+-- flips a buffer-local flag that the lint autocmd checks, and clears/
+-- reruns diagnostics immediately so the effect is visible right away.
+vim.keymap.set('n', '<leader>ml', function()
+    local buf = vim.api.nvim_get_current_buf()
+    local paused = not vim.b.lint_paused
+    vim.b.lint_paused = paused
+
+    if paused then
+        local ns = require('lint').get_namespace 'markdownlint'
+        vim.diagnostic.reset(ns, buf)
+        vim.notify('markdownlint paused', vim.log.levels.INFO)
+    else
+        require('lint').try_lint()
+        vim.notify('markdownlint resumed', vim.log.levels.INFO)
+    end
+end, { buffer = true, desc = '[M]arkdown [L]int toggle' })
+
 -- <leader>mp : Toggle markdown-preview.nvim in the browser.
 vim.keymap.set(
     'n',
