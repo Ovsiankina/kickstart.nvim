@@ -6,9 +6,14 @@
 -- Dependencies (Arch Linux):
 --   - texlive-basic (pdflatex)
 --   - texlive-binextra (latexmk)
---   - texlive-bibtexextra (biber, for bibliographies)
+--   - texlive-bibtexextra (biblatex styles, for bibliographies)
+--   - biber (biber backend binary; NOT bundled with texlive-bibtexextra)
 --   - texlive-latexextra (common LaTeX packages)
---   - zathura, zathura-pdf-mupdf (PDF viewer + SyncTeX)
+--   - texlive-publishers (apa7 and other journal/publisher classes)
+--   - texlive-fontsrecommended (lmodern and other core fonts)
+--   - texlive-langfrench (babel french support, french.ldf)
+--   - zathura
+--   - zathura-pdf-mupdf (PDF viewer + SyncTeX)
 --   - texlab (LSP, optional)
 
 local keymaps = function()
@@ -348,7 +353,7 @@ return {
         vim.api.nvim_create_autocmd('BufWritePost', {
             pattern = { '*.tex', '*.latex' },
             callback = function()
-                vim.cmd('silent! VimtexCompileSS')
+                vim.cmd 'silent! VimtexCompileSS'
             end,
         })
     end,
